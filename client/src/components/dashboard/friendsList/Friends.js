@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../slices/userSlice';
+import userAPI from '../../../api/user';
 import friendsAPI from '../../../api/friends';
 import Friend from './Friend';
-import { setFriends, clearFriendsSlice, selectFriends } from '../../../slices/friendsSlice';
+import { addFriend, clearFriendsSlice, selectFriends } from '../../../slices/friendsSlice';
 import { useDispatch } from 'react-redux';
 import './Friends.css';
 
@@ -16,11 +17,14 @@ const Friends = () => {
     const fetchFriends = async () => {
       try {
         if (!fetchedFriendsData && user.is_active) {
+          dispatch(clearFriendsSlice());
           fetchedFriendsData = true
           const friendsData = await friendsAPI.getFriends(user.id);
-
-          dispatch(clearFriendsSlice());
-          dispatch(setFriends(friendsData));
+          const friendsPromises = friendsData.map(async (friend) => {
+              const friendData = await userAPI.getUser(friend.friend_id);
+              return dispatch(addFriend({friendshipId: friend.id, friendDetails: friendData}));
+          });
+          await Promise.all(friendsPromises);
         }
       } catch (error) {
         console.error('Error fetching friends:', error);
@@ -38,9 +42,9 @@ const Friends = () => {
         <p className='no-friends-added-text'>Add New Friends</p>
       ) : (
         <ul className='friends-list'>
-          {Object.entries(friendships).map(([friendshipId, friendId]) => (
+          {Object.entries(friendships).map(([friendshipId, friendDetails]) => (
             <li key={friendshipId}>
-              <Friend friendId={friendId} friendshipId={friendshipId} />
+              <Friend friendDetails={friendDetails} friendshipId={friendshipId} />
             </li>
           ))}
         </ul>

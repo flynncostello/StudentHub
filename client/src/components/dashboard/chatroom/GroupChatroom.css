@@ -1,0 +1,69 @@
+/* Container */
+.group-chatroom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 20px;
+    margin: 5px;
+    margin-top: -10px;
+}
+
+/* Title */
+.group-chatroom-container h1 {
+    font-weight: 400;
+    align-self: center;
+}
+
+/* Friend requests sent */
+.group-chatrooms-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 35vh;
+    overflow-y: scroll;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.group-chatrooms-empty-text {
+    text-align: center;
+    margin-top: 40px;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.create-new-group-chatroom-button {
+    position: absolute;
+    right: 7px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    background-color: rgb(157, 244, 255);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.create-new-group-chatroom-button:hover {
+    opacity: 0.7;
+}
+
+
+
+/* New Group Chatroom Form */
+
+.create-new-group-chatroom-form {
+    z-index: 100;
+    position: absolute;
+    top: 45%;
+    right: 8vw; /* Position the tab 50px to the right of the icon */
+    width: 450px;
+    height: 450px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+}
+

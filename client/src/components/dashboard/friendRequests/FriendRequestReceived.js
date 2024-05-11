@@ -47,7 +47,9 @@ const FriendRequest = ({ created_at, id, receiver_id, sender_id, status }) => {
             const receivers_friendship = await friendsAPI.createFriendship(friendship_info_for_receiver);
             // Finally we add the new friend for this user to their friends slice
             console.log("Friend username: ", senderUsername)
-            dispatch(addFriend({ id: receivers_friendship.data.id, friend_id: receivers_friendship.data.friend_id}));
+            const friend_id = receivers_friendship.data.friend_id
+            const friendData = await userAPI.getUser(friend_id);
+            dispatch(addFriend({ friendshipId: receivers_friendship.data.id, friendDetails: friendData}));
 
         } catch (error) {
             console.error('Error accepting friend request:', error);

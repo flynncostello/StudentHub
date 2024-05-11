@@ -69,4 +69,14 @@ html, body {
 .right-column {
     flex: 0.8;
     border: 1.5px solid rgb(235, 235, 235);
+    display: flex;
+    flex-direction: column;
+}
+
+.right-column > div {
+    height: 50%;
+}
+
+.group-chatroom-container {
+    margin: 5px;
 }

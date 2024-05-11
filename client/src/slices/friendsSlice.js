@@ -4,6 +4,7 @@ const friendsSlice = createSlice({
   name: 'friends',
   initialState: {}, // Object with keys = friendship_id, and values = friend_id
   reducers: {
+    /*
     setFriends: (state, action) => { // action.payload is an array of objects each containing friends info
         const friends = action.payload
         if (friends.length > 0) {
@@ -12,11 +13,11 @@ const friendsSlice = createSlice({
             });
         };
     },
+    */
     addFriend: (state, action) => {
-        const newFriendId = action.payload.friend_id; // action.payload is an object containing friend's info as well as friend_ship id
-        const newFriendshipId = action.payload.id;
-        if (!state[newFriendshipId]) {
-            state[newFriendshipId] = newFriendId;
+        const {friendshipId, friendDetails} = action.payload;
+        if (!state[friendshipId]) {
+            state[friendshipId] = friendDetails;
         }
     },
     removeFriend: (state, action) => { // action.payload is friendship_id

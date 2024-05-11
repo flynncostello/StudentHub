@@ -4,6 +4,7 @@ import Friends from './friendsList/Friends';
 import NewFriend from './addNewFriend/NewFriend';
 import Chatroom from './chatroom/Chatroom';
 import FriendRequests from './friendRequests/FriendRequests';
+import GroupChatrooms from './chatroom/GroupChatroom';
 import axios from 'axios';
 import { API_ENDPOINT } from '../../api/index';
 
@@ -40,6 +41,7 @@ const Dashboard = () => {
             <div className='right-column'>
                 {/* Friend Requests */}
                 <FriendRequests />
+                <GroupChatrooms />
             </div>
 
         </div>

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import './Friend.css';
 import { useDispatch, useSelector } from 'react-redux';
-import userAPI from '../../../api/user';
 import friendsAPI from '../../../api/friends';
 import chatroomsAPI from '../../../api/chatrooms';
 import { removeFriend } from '../../../slices/friendsSlice';
@@ -13,23 +12,31 @@ import messagesAPI from '../../../api/messages';
 import { encryptWithReceiversPublicKey, decryptMessageWithSharedKey, decryptWithPrivateKey, encryptMessageWithUsersPassword, decryptMessageWithUsersPassword, validateHmac } from '../chatroom/chatroom_utils';
 import chatroomSharedSecretAPI from '../../../api/chatroomSharedSecret';
 
-const Friend = ({ friendId, friendshipId }) => {
-  const [friendDetails, setFriendDetails] = useState(null);
+const Friend = ({ friendDetails, friendshipId }) => {
+  //const [friendDetails, setFriendDetails] = useState(null);
+  const [friendRole, setFriendRole] = useState(null);
   const dispatch = useDispatch();
   const user_id = useSelector(selectUser).id;
 
+  const getRoleText = (role) => {
+    switch (role) {
+      case 'student':
+        return 'Student';
+      case 'academic_staff':
+        return 'Academic';
+      case 'administrative_staff':
+        return 'Administrative Staff';
+      case 'admin_user':
+        return 'Admin User'
+      default:
+        return 'Unknown';
+    }
+  }
+
   // HANDLES RETRIEVING FRIENDS DETAILS FROM DATABASE //
   useEffect(() => {
-    const fetchFriendDetails = async () => {
-      try {
-        const friendData = await userAPI.getUser(friendId);
-        setFriendDetails(friendData);
-      } catch (error) {
-        console.error('Error fetching friend details:', error);
-      }
-    };
-    fetchFriendDetails();
-  }, [friendId]);
+    setFriendRole(getRoleText(friendDetails.role));
+  }, [friendDetails]);
 
 
   // HANDLES DELETING FRIEND //
@@ -46,10 +53,10 @@ const Friend = ({ friendId, friendshipId }) => {
       console.log("Deleted friendship with id: ", friendshipId)
 
       // Deleting the second friendship connection (friend_id is the user who is logged in)
-      const friends_friends = await friendsAPI.getFriends(friendId);
+      const friends_friends = await friendsAPI.getFriends(friendDetails.id);
       console.log("My friends friends are: ", friends_friends)
       const friendship = friends_friends.find(
-        (friendship) => friendship.user_id === friendId && friendship.friend_id === user_id
+        (friendship) => friendship.user_id === friendDetails.id && friendship.friend_id === user_id
       );
       console.log("Other friendship to delete: ", friendship)
       // We are first one to delete friend
@@ -91,7 +98,7 @@ const Friend = ({ friendId, friendshipId }) => {
         };
         final_sorted_messages.push(decryptedMessageObject);
       
-      } else if (message.waiting_for_retrieval === true && message.sender_id === friendId) { // Message needs to be retrieved by user and decrypted using users private key
+      } else if (message.waiting_for_retrieval === true && message.sender_id === friendDetails.id) { // Message needs to be retrieved by user and decrypted using users private key
         console.log("IN FRIEND.JS: Retrieving a message which has been waiting for retrieval\n")
         // First check hmac is valid before decrypting message
         const hmac_is_valid = validateHmac(message.content, message.hmac, chatroom_id);
@@ -119,7 +126,7 @@ const Friend = ({ friendId, friendshipId }) => {
         console.log("Now storing message in database encrypted with user's own password key\n")
         console.log("Decrypted message in Friend.js: ", decryptedMessage)
         const message_encrypted_with_users_password = await encryptMessageWithUsersPassword(decryptedMessage, user_id);
-        await messagesAPI.createMessage(message.chatroom_id, message.chatroom_index, user_id, friendId, message_encrypted_with_users_password);
+        await messagesAPI.createMessage(message.chatroom_id, message.chatroom_index, user_id, friendDetails.id, message_encrypted_with_users_password);
         console.log("IN FRIEND.JS: Have retrieved message and saved it to database encrypted with user's password key. Message was: ", decryptedMessage);
 
         // Deleting message from database as it has been retrieved
@@ -190,13 +197,13 @@ const Friend = ({ friendId, friendshipId }) => {
 
   const goToChatroom = async () => {
     // First we re-fetch the data for this chatroom - first looking for entry then returning data and assigning slices slot for it
-    const existingChatroomInfo = await fetchChatroomDataFromDatabase(user_id, friendId);
+    const existingChatroomInfo = await fetchChatroomDataFromDatabase(user_id, friendDetails.id);
     if (existingChatroomInfo === null) {
       // Need to create new chatroom
       console.log("Creating a new chatroom")
-      const new_chatroom = await chatroomsAPI.createChatroom(user_id, friendId); // Creating chatroom in DATABASE
+      const new_chatroom = await chatroomsAPI.createChatroom(user_id, friendDetails.id); // Creating chatroom in DATABASE
       const chatroom_id = new_chatroom.id;
-      console.log("New room friend details are id: ", friendId, " and public key: ", friendDetails.public_key);
+      console.log("New room friend details are id: ", friendDetails.id, " and public key: ", friendDetails.public_key);
       dispatch(
         setChatroom({
           id: chatroom_id,
@@ -238,22 +245,33 @@ const Friend = ({ friendId, friendshipId }) => {
     }
   };
 
+
   return (
     <div className="friends-badge" onClick={goToChatroom}>
       {friendDetails ? (
-        <>
-          <div>
-            <FontAwesomeIcon icon={faUser} className="friends-icon" />
+        <div className='friend-container'>
+
+          <div className='friend-first-row'>
+
+            <div className='first-row-left-side'>
+
+              <div className='friend-icon-and-active-status'>
+                <FontAwesomeIcon icon={faUser} className="friends-icon" />
+                <div className={`online-status ${friendDetails.is_active ? 'online' : ''}`}></div>
+              </div>
+              <p className="username">{friendDetails.username}</p>
+
+            </div>
+
+
+            <FontAwesomeIcon icon={faTimesCircle} className="delete-friend-button" onClick={handleDeleteFriend} />
           </div>
-          <div className="friends-info">
-            <div className="username">{friendDetails.username}</div>
-            <FontAwesomeIcon
-              icon={faTimesCircle}
-              className="delete-friend-button"
-              onClick={handleDeleteFriend}
-            />
-          </div>
-        </>
+
+          <p className='friend-role'>{friendRole}</p>
+
+        </div>
+
+
       ) : (
         <p>Loading...</p>
       )}

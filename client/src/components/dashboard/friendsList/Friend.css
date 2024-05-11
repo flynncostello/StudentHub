@@ -1,6 +1,6 @@
 .friends-badge {
     display: flex;
-    align-items: center;
+    align-items: left;
     background-color: #fff;
     border: 1px solid rgb(238, 238, 238);
     padding: 10px 20px;
@@ -12,7 +12,30 @@
     opacity: 0.7;
 }
 
-.friends-badge .friends-icon {
+.friend-container {
+    width: 100%;
+    margin-top: -10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Row 1 */
+.friend-first-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.first-row-left-side {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.friends-icon {
     width: 20px;
     height: 30px;
     border-radius: 50%;
@@ -21,21 +44,46 @@
     align-items: center;
     justify-content: center;
     margin-right: 16px;
+    margin-top: 10px;
 }
 
-
-.friends-badge .friends-info {
-    flex-grow: 1;
-    display: flex;
-    justify-content: space-between;
-}
-
-.friends-badge .username {
+.username {
     font-size: 20px;
     font-weight: 400;
 }
 
-.delete-friend-button {
+.online-status {
+    display: absolute;
+    top: -10px;
+    left: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: rgb(238, 238, 238);
+    position: relative;
+  }
+  
+  .online-status::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: rgb(0, 255, 13);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .online-status.online::before {
+    opacity: 1;
+  }
+
+
+  .delete-friend-button {
     color: red;
     font-size: 20px;
     margin-top: 3px;
@@ -44,4 +92,11 @@
 
 .delete-friend-button:hover {
     opacity: 0.7;
+}
+
+/* Row 2 */
+.friend-role {
+    margin-top: -10px;
+    opacity: 0.8;
+    font-size: 14px;
 }

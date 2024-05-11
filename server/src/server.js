@@ -19,6 +19,7 @@ const friend_requestsRouter = require("./routes/friend_requestsRouter");
 const chatroomsRouter = require("./routes/chatroomsRouter");
 const messagesRouter = require("./routes/messagesRouter");
 const chatroomSharedSecretRouter = require("./routes/chatroomSharedSecretRouter");
+const groupChatroomsRouter = require("./routes/groupChatroomsRouter");
 
 //--------------------------------//
 // SETTING UP APP, IO, and SERVER //
@@ -109,7 +110,7 @@ app.use("/api/friend_requests", isAuthenticated, friend_requestsRouter);
 app.use("/api/chatrooms", isAuthenticated, chatroomsRouter);
 app.use("/api/messages", isAuthenticated, messagesRouter);
 app.use("/api/chatroom_shared_secret", isAuthenticated, chatroomSharedSecretRouter);
-
+app.use("/api/group_chatrooms", groupChatroomsRouter);
 
 app.get('/api/sessionInfo', (req, res) => {
   console.log('$$$ Current session id is: ', req.session.id);
@@ -160,10 +161,10 @@ app.get('/api/checkusername', async (req, res) => {
 
 app.post('/api/signup', async (req, res) => {
   // Password will already be hashed by now
-  const { username, hashedPassword, is_active, public_key } = req.body;
+  const { username, hashedPassword, is_active, public_key, role } = req.body;
 
   try {
-    const { data } = await supabase.from("users").insert([{ username, password: hashedPassword, is_active, public_key }]).select();
+    const { data } = await supabase.from("users").insert([{ username, password: hashedPassword, is_active, public_key, role }]).select();
     const new_user = data[0];
     console.log("User successfully created and added to database. User data: ", new_user);
     return res.status(201).json({ success: true, message: 'User created successfully', id: new_user.id });
@@ -223,6 +224,7 @@ const getAllFriends = async (userId) => {
 //----------------------------//
 io.on('connection', (socket) => {
   console.log('A user connected');
+  //console.log(socket.id)
 
   // Helper to get socket id
   socket.on('getSocketId', () => {

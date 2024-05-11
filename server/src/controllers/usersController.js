@@ -24,6 +24,7 @@ exports.getUserById = async (req, res) => {
 exports.createUser = async (req, res) => {
     const user_info = req.body;
     try {
+        console.log(user_info, 'XXX')
         const new_user = await usersModel.m_createUser(user_info);
         res.status(201).json(new_user);
     } catch (error) {

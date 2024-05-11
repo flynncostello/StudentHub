@@ -29,9 +29,11 @@ Encryption things:
 const Signup = () => {
     const [signupUsername, setSignupUsername] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
+    const [role, setRole] = useState('student');
     const navigate = useNavigate();
 
     const handleSignup = async (e) => {
+        console.log("ROLE: ", role)
         e.preventDefault();
         try {
             // Check username is valid first
@@ -90,6 +92,7 @@ const Signup = () => {
                 hashedPassword: hashedPassword,
                 is_active: false,
                 public_key: publicKeyString,
+                role: role
             });
 
             // Checking if sign up was successful
@@ -132,6 +135,22 @@ const Signup = () => {
                 <div class="input-container">
                     <input required type="password" value={signupPassword} onChange={e => setSignupPassword(e.target.value)} placeholder='Password' />
                 </div>
+
+                <div className='user-role-container'>
+                    <input type="radio" id="student" name="userType" value="student" onChange={e => setRole(e.target.value)} defaultChecked={true} />
+                    <label htmlFor="student">Student</label>
+
+                    <input type="radio" id="academic" name="userType" value="academic_staff" onChange={e => setRole(e.target.value)} />
+                    <label htmlFor="academic">Academic</label>
+
+                    <input type="radio" id="administrativeStaff" name="userType" value="administrative_staff" onChange={e => setRole(e.target.value)} />
+                    <label htmlFor="administrativeStaff">Administrative Staff</label>
+                    
+                    <input type="radio" id="adminUser" name="userType" value="admin_user" onChange={e => setRole(e.target.value)} />
+                    <label htmlFor="adminUser">Admin User</label>
+                </div>
+                
+
                 <input type="submit" className='submit' value="Sign Up" />
 
                 <p class="signup-link">

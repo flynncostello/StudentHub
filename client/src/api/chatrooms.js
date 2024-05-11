@@ -21,6 +21,7 @@ const chatroomsAPI = {
     }
   },
   createChatroom: async (host_id, participant_id) => {
+    console.log("PARTICIPANT ID: ", participant_id)
     const chatroom_info = {
       host_id,
       participant_id

@@ -93,6 +93,7 @@ const UserAccount = () => {
         <h1>User Account</h1>
         <p>User ID: {user.id}</p>
         <p>Username: {user.username}</p>
+        <p>Role: {user.role}</p>
         {/* <p>Password: {user.password}</p> Not displaying password */}
         <p>Is Active: {user.is_active ? 'Yes' : 'No'}</p>
       </div>
