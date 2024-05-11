@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 35vh;
+    height: 33vh;
     overflow-y: scroll;
     border: 2px solid black;
     border-radius: 5px;
@@ -56,10 +56,10 @@
 .create-new-group-chatroom-form {
     z-index: 100;
     position: absolute;
-    top: 45%;
+    top: 35%;
     right: 8vw; /* Position the tab 50px to the right of the icon */
-    width: 450px;
-    height: 450px;
+    width: 30%;
+    height: 50%;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;

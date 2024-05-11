@@ -20,11 +20,11 @@ const groupChatroomsModel = {
 
 
     m_createGroupChatrooms: async (group_chatroom_info) => {
-        const { host_id, participants } = group_chatroom_info;
+        const { host_id, participants, name } = group_chatroom_info;
         try {
             const { data, error } = await supabase
                 .from("group_chatrooms")
-                .insert([{ host_id, participants }])
+                .insert([{ host_id, participants, name }])
                 .select();
             
             if (error) {
