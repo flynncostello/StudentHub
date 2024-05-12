@@ -1,27 +1,51 @@
-import React, { useState } from 'react';
-import './GroupChatroom.css';
+import React, { useState, useEffect } from 'react';
+import './GroupChatrooms.css';
 import { selectFriends } from '../../../slices/friendsSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../../slices/userSlice';
 import groupChatroomsAPI from '../../../api/groupChatrooms';
+import GroupChatroomBox from './GroupChatroomBox';
+import { selectAllGroupChatrooms, addGroupChatroomToAll } from '../../../slices/groupChatroomSlice';
 
-const GroupChatroom = () => {
-    const [groupChatrooms, setGroupChatrooms] = useState([]);
+const GroupChatrooms = () => {
+    //const [groupChatrooms, setGroupChatrooms] = useState([]);
     const [creatingNewGroupChatroom, setCreatingNewGroupChatroom] = useState(false);
     const [newChatroomParticipants, setNewChatroomParticipants] = useState({});
     const [newChatroomName, setNewChatroomName] = useState('');
     const [clickedButtons, setClickedButtons] = useState({});
+
     const friends = useSelector(selectFriends);
     const user = useSelector(selectUser);
+    const groupChatrooms = useSelector(selectAllGroupChatrooms);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchUsersExistingGroupChatrooms = async () => {
+            const groupChatrooms = await groupChatroomsAPI.getAllUsersGroupChatrooms(user.id);
+            groupChatrooms.forEach(groupChatroom => {
+                console.log("GROUP CHATROOM: ", groupChatroom);
+                dispatch(addGroupChatroomToAll(groupChatroom));
+            });
+            //console.log("EXISTING USERS GROUP CHATROOMS IN COMPONENT: ", groupChatrooms);
+            //setGroupChatrooms(groupChatrooms);
+        }
+        fetchUsersExistingGroupChatrooms();
+
+        console.log("CURRENT GROUP CHATROOMS DISPATCHED THING: ", groupChatrooms)
+    }, [user.id]);
 
     const handleSubmitGroupchatForm = async (e) => {
         e.preventDefault();
         const host_id = user.id;
-        await groupChatroomsAPI.createGroupChatroom(host_id, newChatroomParticipants, newChatroomName);
+        // Send new group chatroom to database
+        const new_group_chatroom = await groupChatroomsAPI.createGroupChatroom(host_id, newChatroomParticipants, newChatroomName);
         setCreatingNewGroupChatroom(false);
         setNewChatroomName('');
         setNewChatroomParticipants({});
         setClickedButtons({});
+        // Add new group chatroom to state
+        dispatch(addGroupChatroomToAll(new_group_chatroom))
     }
 
     return (
@@ -31,13 +55,18 @@ const GroupChatroom = () => {
             <div className='group-chatrooms-box'>
                 <button className='create-new-group-chatroom-button' onClick={() => setCreatingNewGroupChatroom(true)}>+</button>
 
-                {groupChatrooms.length > 0 ? (
-                    groupChatrooms.map((group_chatroom) => (
-                        <GroupChatroom id={group_chatroom.id} />
-                    ))
-                ) : (
-                    <p className='group-chatrooms-empty-text'>No group chatrooms. Tap the plus to create one</p>
-                )}
+                <div className='group-chats-components-container'>
+                    {Object.keys(groupChatrooms).length > 0 ? (
+                        Object.values(groupChatrooms).map((group_chatroom) => (
+                            <div key={group_chatroom.id}>
+                                <GroupChatroomBox id={group_chatroom.id} />
+                            </div>
+                        ))
+                    ) : (
+                        <p className='group-chatrooms-empty-text'>No group chatrooms. Tap the plus to create one</p>
+                    )}
+                </div>
+
             </div>
 
             {creatingNewGroupChatroom && (
@@ -66,4 +95,4 @@ const GroupChatroom = () => {
     );
 };
 
-export default GroupChatroom;
+export default GroupChatrooms;

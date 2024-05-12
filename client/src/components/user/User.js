@@ -14,6 +14,7 @@ import { clearUserSlice } from '../../slices/userSlice';
 import { clearFriendsSlice } from '../../slices/friendsSlice';
 import { clearRequests } from '../../slices/friendRequestsSlice';
 import { resetChatroom } from '../../slices/chatroomSlice';
+import { resetAllGroupChatrooms, resetActiveGroupChatroom } from '../../slices/groupChatroomSlice';
 
 import { useDispatch } from 'react-redux';
 
@@ -51,6 +52,8 @@ const User = () => {
             dispatch(clearFriendsSlice()); // Clear friends slice
             dispatch(clearRequests()); // Clear friend requests slice
             dispatch(resetChatroom()); // Clear chatroom slice
+            dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+            dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
             navigate('/'); // Redirect to home page
 
             const response = await axios.get(`${API_ENDPOINT}/logout`);
@@ -61,6 +64,8 @@ const User = () => {
                 dispatch(clearFriendsSlice()); // Clear friends slice
                 dispatch(clearRequests()); // Clear friend requests slice
                 dispatch(resetChatroom()); // Clear chatroom slice
+                dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+                dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
                 navigate('/'); // Redirect to home page
             } else {
                 alert('Logout failed:', response.data.message);

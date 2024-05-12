@@ -22,3 +22,25 @@ exports.createGroupChatrooms = async (req, res) => {
     }
 };
 
+exports. getGroupChatroomMessages = async (req, res) => {
+    const chatroom_id = req.params.chatroomId;
+
+    try {
+        const chatroom_messages = await groupChatroomsModel.m_getGroupChatroomMessages(chatroom_id);
+        res.json(chatroom_messages);
+    } catch (error) {
+        res.status(404).json({ error: 'Chatroom messages not found' });
+    }
+}
+
+exports.createGroupChatroomMessage = async (req, res) => {
+    const chatroom_id = req.params.chatroomId;
+    const message_info = req.body;
+
+    try {
+        const new_message = await groupChatroomsModel.m_createGroupChatroomMessage(chatroom_id, message_info);
+        res.status(201).json(new_message);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}

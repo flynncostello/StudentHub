@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments } from '@fortawesome/free-solid-svg-icons';
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../../slices/userSlice";
@@ -12,6 +10,9 @@ import './Chatroom.css';
 
 import { socket } from '../../login/Login';
 
+
+
+// Private Chatroom Component (Max 2 People)
 const Chatroom = () => {
   const [message, setMessage] = useState('');
 
@@ -140,35 +141,28 @@ const Chatroom = () => {
   
 
   return (
-    chatroom_id !== null ? (
-      <div className='chatroom-container'>
-          {/* Chatroom */}
-          <button className='leave-chat-button' onClick={handleLeaveChat}>Leave Chat</button>
-          <div className='chats-container'>
-            {chatroom_messages.length > 0 && [...chatroom_messages].sort((a, b) => a.chatroom_index - b.chatroom_index)
-              .map((obj, index) => (
-                <div key={index} className='chat-bubble'>
-                  <p className={obj.sender_id === user_id ? 'user-message' : 'friend-message'}>{obj.content}</p>
-                </div>
-            ))}
-          </div>
-          <form className='input-chat-form' onSubmit={handleSubmitMessage}>
-            <input
-              type='text'
-              className='chat-input'
-              placeholder='Type a message...'
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button className='chat-input-submit-button' type='submit'>Send</button>
-          </form>
-      </div>
-    ) : (
-      <div className='empty-chatroom-container'>
-          <FontAwesomeIcon icon={faComments} className='empty-chatroom-icon' />
-          <p className='empty-chatroom-instruction-text'>Click on a friend to start a chat</p>
-      </div>
-    )
+    <div className='chatroom-container'>
+        {/* Chatroom */}
+        <button className='leave-chat-button' onClick={handleLeaveChat}>Leave Chat</button>
+        <div className='chats-container'>
+          {chatroom_messages.length > 0 && [...chatroom_messages].sort((a, b) => a.chatroom_index - b.chatroom_index)
+            .map((obj, index) => (
+              <div key={index} className='chat-bubble'>
+                <p className={obj.sender_id === user_id ? 'user-message' : 'friend-message'}>{obj.content}</p>
+              </div>
+          ))}
+        </div>
+        <form className='input-chat-form' onSubmit={handleSubmitMessage}>
+          <input
+            type='text'
+            className='chat-input'
+            placeholder='Type a message...'
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button className='chat-input-submit-button' type='submit'>Send</button>
+        </form>
+    </div>
   );
 }
 

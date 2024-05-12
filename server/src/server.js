@@ -237,7 +237,7 @@ io.on('connection', (socket) => {
     console.log(`User joined room ${roomId}`);
   });
 
-  // Send a new message
+  // Send a new message - private chat room
   socket.on('send-message', async (data) => {
     const { roomId, encrypted_message, hmac, senderId, chatroom_index } = data;
     const socketsInRoom = await io.in(roomId).fetchSockets();
@@ -260,6 +260,17 @@ io.on('connection', (socket) => {
       }
     }
   });
+
+  // Send a new message - group chat room
+  socket.on('send-message-groupchat', async (data) => {
+    const { roomId, message, senderId, chatroom_index } = data;
+    console.log("SENT MESSAGE ON SOCKET WITH ROOM ID: ", roomId, " AND MESSAGE: ", message, " AND SENDER ID: ", senderId, " AND CHATROOM INDEX: ", chatroom_index);
+    socket.to(roomId).emit('receive-message-groupchat', { message, senderId, chatroom_index });
+    console.log("Message broadcast over socket in room with id: ", roomId);
+  });
+
+
+
 
   // Leave a chat room
   socket.on('leave-room', (roomId) => {

@@ -27,6 +27,11 @@
     padding: 5px;
 }
 
+.group-chats-components-container {
+    overflow-y: scroll;
+    margin: 40px 10px 10px 20px;
+}
+
 .group-chatrooms-empty-text {
     text-align: center;
     margin-top: 40px;
@@ -35,12 +40,13 @@
 }
 
 .create-new-group-chatroom-button {
+    color: white;
     position: absolute;
     right: 7px;
     width: 30px;
     height: 30px;
     padding: 5px;
-    background-color: rgb(157, 244, 255);
+    background-color: #5048de;
     border-radius: 10px;
     cursor: pointer;
 }

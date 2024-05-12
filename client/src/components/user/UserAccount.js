@@ -9,6 +9,7 @@ import { clearUserSlice } from '../../slices/userSlice';
 import { clearFriendsSlice } from '../../slices/friendsSlice';
 import { clearRequests } from '../../slices/friendRequestsSlice';
 import { resetChatroom } from '../../slices/chatroomSlice';
+import { resetAllGroupChatrooms, resetActiveGroupChatroom } from '../../slices/groupChatroomSlice';
 
 import { API_ENDPOINT } from '../../api/index'
 import './UserAccount.css';
@@ -36,6 +37,8 @@ const UserAccount = () => {
         dispatch(clearFriendsSlice());
         dispatch(clearRequests());
         dispatch(resetChatroom());
+        dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+        dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
         navigate('/');
 
         const response = await axios.get(`${API_ENDPOINT}/logout`);
@@ -46,6 +49,8 @@ const UserAccount = () => {
           dispatch(clearFriendsSlice());
           dispatch(clearRequests());
           dispatch(resetChatroom());
+          dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+          dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
           navigate('/');
         } else {
           alert('Failed to logout after deleting account.');
@@ -67,6 +72,8 @@ const UserAccount = () => {
       dispatch(clearFriendsSlice()); // Clear friends slice
       dispatch(clearRequests()); // Clear friend requests slice
       dispatch(resetChatroom()); // Clear chatroom slice
+      dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+      dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
       navigate('/'); // Redirect to home page
 
       const response = await axios.get(`${API_ENDPOINT}/logout`);
@@ -77,6 +84,8 @@ const UserAccount = () => {
         dispatch(clearFriendsSlice()); // Clear friends slice
         dispatch(clearRequests()); // Clear friend requests slice
         dispatch(resetChatroom()); // Clear chatroom slice
+        dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
+        dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
         navigate('/'); // Redirect to home page
       } else {
           alert('Logout failed:', response.data.message);
