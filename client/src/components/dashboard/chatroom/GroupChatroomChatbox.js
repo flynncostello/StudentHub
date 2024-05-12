@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../../slices/userSlice";
 import { selectActiveGroupChatroom, resetActiveGroupChatroom, addMessageToActiveGroupChatroom } from "../../../slices/groupChatroomSlice";
 
-import './GroupChatroomChatbox';
+import './GroupChatroomChatbox.css';
 
 import { socket } from '../../login/Login';
 
@@ -100,7 +100,14 @@ const GroupChatroomChatbox = () => {
         <div className='chats-container'>
         {chatroom_info.messages.length > 0 && chatroom_info.messages.map((obj, index) => (
                 <div key={index} className='chat-bubble'>
-                    <p className={obj.sender_id === user_id ? 'user-message' : 'friend-message'}>{obj.content} (Sent by, {obj.sender_id})</p>
+                    {obj.sender_id === user_id ? (
+                        <p className='user-message'>{obj.content}</p>
+                    ) : (
+                        <>
+                            <p className='friend-name'>{chatroom_info.participants[obj.sender_id]}</p>
+                            <p className='friend-message'>{obj.content}</p>
+                        </>
+                    )}
                 </div>
             ))}
         </div>

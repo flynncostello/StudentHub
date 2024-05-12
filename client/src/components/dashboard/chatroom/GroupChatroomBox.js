@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllGroupChatrooms, setActiveGroupChatroom} from '../../../slices/groupChatroomSlice';
 import groupChatroomsAPI from '../../../api/groupChatrooms';
+import { resetChatroom } from '../../../slices/chatroomSlice';
 import './GroupChatroomBox.css';
 
 const GroupChatroomBox = ({ id }) => {
@@ -16,6 +17,9 @@ const GroupChatroomBox = ({ id }) => {
     }, [id]);
 
     const retrieveGroupChatroomMessages = async () => {
+        // First we close any chat which might be open in private 2 person chat
+        dispatch(resetChatroom());
+
         const groupChatroomMessages = await groupChatroomsAPI.getGroupChatroomMessages(id);
         const active_chatroom = {
             id: id,

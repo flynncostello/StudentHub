@@ -6,16 +6,19 @@ import { selectUser } from '../../../slices/userSlice';
 import groupChatroomsAPI from '../../../api/groupChatrooms';
 import GroupChatroomBox from './GroupChatroomBox';
 import { selectAllGroupChatrooms, addGroupChatroomToAll } from '../../../slices/groupChatroomSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const GroupChatrooms = () => {
     //const [groupChatrooms, setGroupChatrooms] = useState([]);
     const [creatingNewGroupChatroom, setCreatingNewGroupChatroom] = useState(false);
-    const [newChatroomParticipants, setNewChatroomParticipants] = useState({});
     const [newChatroomName, setNewChatroomName] = useState('');
     const [clickedButtons, setClickedButtons] = useState({});
 
     const friends = useSelector(selectFriends);
     const user = useSelector(selectUser);
+    const [newChatroomParticipants, setNewChatroomParticipants] = useState({ [user.id]: [user.username] });
+
     const groupChatrooms = useSelector(selectAllGroupChatrooms);
 
     const dispatch = useDispatch();
@@ -71,21 +74,25 @@ const GroupChatrooms = () => {
 
             {creatingNewGroupChatroom && (
                 <form className='create-new-group-chatroom-form' onSubmit={handleSubmitGroupchatForm}>
-                    <button onClick={() => setCreatingNewGroupChatroom(false)}>X</button>
+                    <FontAwesomeIcon icon={faTimesCircle} className="exit-create-new-groupchat-form-button" onClick={() => setCreatingNewGroupChatroom(false)} />
                     <h2>Create New Groupchat</h2>
                     <div className='new-groupchat-inputs'>
                         <label>Name: </label>
-                        <input type='text' required placeholder='' onChange={(e) => setNewChatroomName(e.target.value)}/>
-                        <label>Participants: </label>
-                        {Object.keys(friends).map((friendshipId) => {
-                            const friend = friends[friendshipId];
-                            return (
-                                <div key={friendshipId}>
-                                    <span>{friend.username}</span>
-                                    <button type="button" disabled={clickedButtons[friend.id]} onClick={() => {setNewChatroomParticipants({...newChatroomParticipants, [friend.id]: friend.username}); setClickedButtons({...clickedButtons, [friend.id]: true});}}>Add</button>
-                                </div>
-                            );
-                        })}
+                        <input type='text' className='groupchat-name-input-box' required placeholder='' onChange={(e) => setNewChatroomName(e.target.value)}/>
+                        <div className='participants-container'>
+                            <label>Participants: </label>
+                            <div className='actual-participants'>
+                                {Object.keys(friends).map((friendshipId) => {
+                                    const friend = friends[friendshipId];
+                                    return (
+                                        <div className='participant-choice' key={friendshipId}>
+                                            <span>{friend.username}</span>
+                                            <button type="button" disabled={clickedButtons[friend.id]} onClick={() => {setNewChatroomParticipants({...newChatroomParticipants, [friend.id]: friend.username}); setClickedButtons({...clickedButtons, [friend.id]: true});}}>Add</button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>                    
                     <button className='create-group-chatroom-submit-button' type='submit'>Confirm</button>
                 </form>

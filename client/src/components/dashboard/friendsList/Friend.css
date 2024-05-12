@@ -48,7 +48,7 @@
 }
 
 .username {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 400;
 }
 
@@ -98,5 +98,5 @@
 .friend-role {
     margin-top: -10px;
     opacity: 0.8;
-    font-size: 14px;
+    font-size: 13px;
 }

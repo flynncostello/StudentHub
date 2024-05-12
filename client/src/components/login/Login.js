@@ -24,7 +24,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -54,7 +54,7 @@ const Login = () => {
                     console.log("Sending user info to database, user info: ", user_data)
                     userAPI.updateUser(user_data.id, user_data); // Sending data to database
 
-                    navigate(ROUTES.dashboard(user_data.id));
+                    navigate(ROUTES.hub(user_data.id));
                 })
                
             } else {

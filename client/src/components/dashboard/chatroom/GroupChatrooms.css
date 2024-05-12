@@ -5,13 +5,14 @@
     align-items: flex-start;
     padding: 5px 20px;
     margin: 5px;
-    margin-top: -10px;
 }
 
 /* Title */
 .group-chatroom-container h1 {
     font-weight: 400;
     align-self: center;
+    margin-top: -10px;
+
 }
 
 /* Friend requests sent */
@@ -57,19 +58,110 @@
 
 
 
+
 /* New Group Chatroom Form */
 
 .create-new-group-chatroom-form {
     z-index: 100;
     position: absolute;
-    top: 35%;
-    right: 8vw; /* Position the tab 50px to the right of the icon */
-    width: 30%;
+    top: 38%;
+    right: 14vw; /* Position the tab 50px to the right of the icon */
+    width: 20%;
     height: 50%;
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1.5px solid #d4d4d4;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
     padding: 16px;
+    display: flex;
+    flex-direction: column;
 }
 
+.exit-create-new-groupchat-form-button {
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.exit-create-new-groupchat-form-button:hover {
+    opacity: 0.7;
+}
+
+.new-groupchat-inputs label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.groupchat-name-input-box {
+    font-size: 15px;
+    padding: 3px;
+}
+
+.actual-participants {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.participants-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.participant-choice {
+    width: 80%;
+    border: 1px dotted black;
+    border-radius: 1px;
+    padding: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.participant-choice span {
+    margin-left: 5px;
+}
+
+.participant-choice button {
+    background-color: #5048de;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.participant-choice button:hover {
+    opacity: 0.8;
+}
+
+.participant-choice button:disabled {
+    background-color: #d4d4d4;
+    cursor: not-allowed;
+}
+
+.create-group-chatroom-submit-button {
+    background-color: #5048de;
+    color: white;
+    border: none;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 8px 25px;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.create-group-chatroom-submit-button:hover {
+    opacity: 0.8;
+}
