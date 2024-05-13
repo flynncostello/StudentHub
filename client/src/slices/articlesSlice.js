@@ -14,9 +14,20 @@ const articlesSlice = createSlice({
     'd123sdf424fwg': {
       id: 'd123sdf424fwg',
       author_id: '13gf0893jfs',
+      author_name: 'Flynn', <-- Need to retrieve from database when getting article
       title: 'Title 1',
       content: 'Content 1',
-      created_at: date,
+      created_at: 'date/time',
+      comments: [
+        '232890fgnsi': {
+            id: '232890fgnsi',
+            article_id: 'd123sdf424fwg',
+            writer_id: '13gf0893jfs',
+            writer_name: 'Dan', <-- Need to retrieve from database when getting article
+            content: 'Comment 1',
+        },
+        ...
+      ],
     },
     ...
   }
@@ -28,6 +39,15 @@ const articlesSlice = createSlice({
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
+      comments: [
+        '232890fgnsi': {
+            id: '232890fgnsi',
+            article_id: 'd123sdf424fwg',
+            writer_id: '13gf0893jfs',
+            content: 'Comment 1',
+        },
+        ...
+      ],
     },
     ...
   }
@@ -39,6 +59,15 @@ const articlesSlice = createSlice({
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
+      comments: [
+        '232890fgnsi': {
+            id: '232890fgnsi',
+            article_id: 'd123sdf424fwg',
+            writer_id: '13gf0893jfs',
+            content: 'Comment 1',
+        },
+        ...
+      ],
     },
     ...
   }
@@ -57,6 +86,15 @@ const articlesSlice = createSlice({
     deleteArticle: (state, action) => {
         delete state.articles[action.payload.id];
     },
+    setArticleComments: (state, action) => {
+        state.articles[action.payload.article_id].comments = action.payload.comments;
+    },
+    addArticleComment: (state, action) => {
+        state.articles[action.payload.article_id].comments[action.payload.id] = action.payload;
+    },
+    deleteArticleComment: (state, action) => {
+        delete state.articles[action.payload.article_id].comments[action.payload.id];
+    },
 
 
     setMyArticles: (state, action) => {
@@ -71,6 +109,15 @@ const articlesSlice = createSlice({
     deleteMyArticle: (state, action) => {
         delete state.myArticles[action.payload.id];
     },
+    setMyArticleComments : (state, action) => {
+        state.myArticles[action.payload.article_id].comments = action.payload.comments;
+    },
+    addMyArticleComment: (state, action) => {
+        state.myArticles[action.payload.article_id].comments[action.payload.id] = action.payload;
+    },
+    deleteMyArticleComment: (state, action) => {
+        delete state.myArticles[action.payload.article_id].comments[action.payload.id];
+    },
 
 
     setFavouriteArticles: (state, action) => {
@@ -82,6 +129,15 @@ const articlesSlice = createSlice({
     deleteFavouriteArticle: (state, action) => {
         delete state.favouriteArticles[action.payload.id];
     },
+    setFavouriteArticleComments: (state, action) => {
+        state.favouriteArticles[action.payload.article_id].comments = action.payload.comments;
+    },
+    addFavouriteArticleComment: (state, action) => {
+        state.favouriteArticles[action.payload.article_id].comments[action.payload.id] = action.payload;
+    },
+    deleteFavouriteArticleComment: (state, action) => {
+        delete state.favouriteArticles[action.payload.article_id].comments[action.payload.id];
+    },
   },
 });
 
@@ -90,13 +146,25 @@ export const {
     addArticle,
     updateArticle,
     deleteArticle,
+    setArticleComments,
+    addArticleComment,
+    deleteArticleComment,
+
     setMyArticles,
     addMyArticle,
     updateMyArticle,
     deleteMyArticle,
+    setMyArticleComments,
+    addMyArticleComment,
+    deleteMyArticleComment,
+
     setFavouriteArticles,
     addFavouriteArticle,
     deleteFavouriteArticle,
+    setFavouriteArticleComments,
+    addFavouriteArticleComment,
+    deleteFavouriteArticleComment,
+    
 } = articlesSlice.actions;
 
 export const selectArticles = (state) => state.articles.articles || {};
