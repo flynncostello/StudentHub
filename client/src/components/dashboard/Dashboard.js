@@ -8,17 +8,19 @@ import FriendRequests from './friendRequests/FriendRequests';
 import GroupChatrooms from './chatroom/GroupChatrooms';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments } from '@fortawesome/free-solid-svg-icons';
+import { faComments, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { selectChatroom } from '../../slices/chatroomSlice';
 import { selectActiveGroupChatroom } from '../../slices/groupChatroomSlice';
-
+import { selectLoadings } from '../../slices/loadingSlice';
 
 import './Dashboard.css';
 
 const Dashboard = () => {
     const chatroom = useSelector(selectChatroom);
     const activeGroupChatroom = useSelector(selectActiveGroupChatroom);
+    const privateChatroomLoading = useSelector(selectLoadings).privateChatroomLoading;
+    const groupChatroomLoading = useSelector(selectLoadings).groupChatroomLoading;
 
     return (
         <div className='dashboard'>
@@ -39,7 +41,11 @@ const Dashboard = () => {
 
             {/* Middle Column */}
             <div className='middle-column'>
-                {chatroom.id !== null ? (
+                {privateChatroomLoading || groupChatroomLoading ? (
+                    <svg class="loading-spinner" viewBox="25 25 50 50">
+                        <circle class="loading-circle" r="20" cy="50" cx="50"></circle>
+                    </svg>
+                ) : chatroom.id !== null ? (
                     <Chatroom />
                 ) : Object.keys(activeGroupChatroom).length !== 0 ? (
                     <GroupChatroomChatbox />

@@ -11,6 +11,7 @@ import { setChatroom } from '../../../slices/chatroomSlice';
 import messagesAPI from '../../../api/messages';
 import { encryptWithReceiversPublicKey, decryptMessageWithSharedKey, decryptWithPrivateKey, encryptMessageWithUsersPassword, decryptMessageWithUsersPassword, validateHmac } from '../chatroom/chatroom_utils';
 import chatroomSharedSecretAPI from '../../../api/chatroomSharedSecret';
+import { setPrivateChatroomLoading } from '../../../slices/loadingSlice';
 
 const Friend = ({ friendDetails, friendshipId }) => {
   //const [friendDetails, setFriendDetails] = useState(null);
@@ -196,6 +197,7 @@ const Friend = ({ friendDetails, friendshipId }) => {
   /////////////////////////////
 
   const goToChatroom = async () => {
+    dispatch(setPrivateChatroomLoading(true));
     // First we re-fetch the data for this chatroom - first looking for entry then returning data and assigning slices slot for it
     const existingChatroomInfo = await fetchChatroomDataFromDatabase(user_id, friendDetails.id);
     if (existingChatroomInfo === null) {
@@ -243,6 +245,7 @@ const Friend = ({ friendDetails, friendshipId }) => {
         })
       );
     }
+    dispatch(setPrivateChatroomLoading(false));
   };
 
 

@@ -5,6 +5,8 @@ import friendsSlice from '../slices/friendsSlice';
 import chatroomSlice from '../slices/chatroomSlice';
 import groupChatroomsSlice from '../slices/groupChatroomSlice';
 import friendRequestsSlice from '../slices/friendRequestsSlice';
+import loadingsSlice from '../slices/loadingSlice';
+import articlesSlice from '../slices/articlesSlice';
 
 const rootReducer = combineReducers({
     user: userSlice,
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
     chatroom: chatroomSlice,
     groupChatrooms: groupChatroomsSlice,
     friendRequests: friendRequestsSlice,
+    loadings: loadingsSlice,
+    articles: articlesSlice,
 });
 
 export default rootReducer;

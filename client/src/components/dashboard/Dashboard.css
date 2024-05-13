@@ -64,6 +64,46 @@ html, body {
     text-align: center;
 }
 
+/* Loading Spinner */
+.loading-spinner {
+    margin: 20px 0 0 20px;
+    width: 3em;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+}
+
+.loading-circle {
+    fill: none;
+    stroke: #5048de;
+    stroke-width: 2;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash4 {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -35px;
+    }
+
+    100% {
+        stroke-dashoffset: -125px;
+    }
+}
+
 
 /* Right Column */
 .right-column {

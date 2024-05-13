@@ -21,12 +21,14 @@ adding that info to the slice
 const Login = () => {
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
+    const [loginLoading, setLoginLoading] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoginLoading(true);
         try {
             const { data } = await axios.post(`${API_ENDPOINT}/login`, { username: loginUsername, password: loginPassword });
 
@@ -53,14 +55,16 @@ const Login = () => {
                     dispatch(setUser(user_data)); // Sending data to redux slice
                     console.log("Sending user info to database, user info: ", user_data)
                     userAPI.updateUser(user_data.id, user_data); // Sending data to database
-
+                    setLoginLoading(false);
                     navigate(ROUTES.hub(user_data.id));
                 })
                
             } else {
+                setLoginLoading(false);
                 alert(`Login failed: ${data.message}`);
             }
         } catch (error) {
+            setLoginLoading(false);
             console.error('Error:', error);
             alert('Error: ' + error);
         }
@@ -68,6 +72,13 @@ const Login = () => {
 
     return (
         <div className='login-page'>
+            {loginLoading && (
+                <div className='loading-overlay'>
+                    <svg class="loading-spinner" viewBox="25 25 50 50">
+                        <circle class="loading-circle" r="20" cy="50" cx="50"></circle>
+                    </svg>
+                </div>
+            )}
             <form class="form" onSubmit={handleLogin}>
                 <p class="form-title">User Log In</p>
 

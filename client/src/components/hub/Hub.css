@@ -55,7 +55,7 @@
     display: inline-block;
     background-color: rgb(244, 244, 244);
     border: 1px solid rgb(181, 181, 181);
-    border-radius: 1px;
+    border-radius: 2px;
 }
   
 .hub-navbar li > a:after { content: ' »'; } /* Change this in order to change the Dropdown symbol */
@@ -64,14 +64,21 @@
   
 .hub-navbar ul li a {
     padding: 10px 20px;
-    display: inline-block;
+    display: block;
     color: black;
     text-decoration: none;
-    width: 100%;
+    box-shadow: inset rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    transition: all 0.5s ease;
 }
   
 .hub-navbar ul li a:hover {
-    opacity: 0.5;
+    opacity: 0.7;
+    background-color: hsl(261deg 80% 48%);
+    color: hsl(0, 0%, 100%);
+    box-shadow: rgb(93 24 220);
 }
   
 .hub-navbar ul li ul {

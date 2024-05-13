@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './SignUp.css';
-import { Link } from 'react-router-dom';
 
 import ROUTES from '../../routes';
 
@@ -10,6 +9,7 @@ import bcrypt from 'bcryptjs'; // Used for secure hashing
 import { derivePasswordEncryptionKey } from './signUpUtils';
 
 import { API_ENDPOINT } from '../../api/index'
+
 
 /*
 Process:
@@ -29,10 +29,12 @@ Encryption things:
 const Signup = () => {
     const [signupUsername, setSignupUsername] = useState('');
     const [signupPassword, setSignupPassword] = useState('');
+    const [signupLoading, setSignupLoading] = useState(false);
     const [role, setRole] = useState('student');
     const navigate = useNavigate();
 
     const handleSignup = async (e) => {
+        setSignupLoading(true);
         console.log("ROLE: ", role)
         e.preventDefault();
         try {
@@ -41,6 +43,7 @@ const Signup = () => {
             console.log('validUsername:', username_check_response)
             if (username_check_response.data.usernameExists) {
                 console.error('SIGN UP ERROR: Username already exists');
+                setSignupLoading(false);
                 alert('Username already exists');
                 return;
             }
@@ -94,6 +97,7 @@ const Signup = () => {
                 public_key: publicKeyString,
                 role: role
             });
+            setSignupLoading(false);
 
             // Checking if sign up was successful
             if (response.status === 201) {
@@ -112,6 +116,7 @@ const Signup = () => {
 
             } else {
                 // Unexpected error
+                setSignupLoading(false);
                 console.error('SIGN UP ERROR:', response.data.error);
                 alert(response.data.error);
             }
@@ -119,6 +124,7 @@ const Signup = () => {
 
         } catch (error) {
             // Other errors
+            setSignupLoading(false);
             console.error('Error:', error);
             alert('Error: ' + error);
         }
@@ -126,6 +132,13 @@ const Signup = () => {
 
     return (
         <div className='sign-up-page'>
+            {signupLoading && (
+                <div className='loading-overlay'>
+                    <svg class="loading-spinner" viewBox="25 25 50 50">
+                        <circle class="loading-circle" r="20" cy="50" cx="50"></circle>
+                    </svg>
+                </div>
+            )}
             <form class="form" onSubmit={handleSignup}>
                 <p class="form-title">User Sign Up</p>
 
