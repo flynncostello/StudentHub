@@ -31,7 +31,7 @@
 }
 
 .login-button {
-  color: rgb(0, 106, 255);
+  color: #7152e1;
 }
 
 .signup-button {
@@ -39,7 +39,7 @@
   color: rgb(255, 255, 255);
   padding: 10px;
   margin: 10px;
-  background-color: rgb(0, 166, 255);
+  background-color: #5952e9;
   border-radius: 5px;
 }
 

@@ -22,6 +22,7 @@ import { formatDate } from '../../utils';
 const MyArticles = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [newArticle, setNewArticle] = useState({ title: '', content: '' });
+    const [fetchingUsersArticles, setFetchingUsersArticles] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -29,6 +30,7 @@ const MyArticles = () => {
     const user = useSelector(selectUser);
 
     useEffect(() => {
+        setFetchingUsersArticles(true);
         const fetchMyArticles = async () => {
             try {
                 console.log("LOADING USERS ARTICLES")
@@ -45,8 +47,9 @@ const MyArticles = () => {
             } catch (error) {
                 console.error('Error fetching users articles:', error);
             }
+            setFetchingUsersArticles(false);
+            
         };
-
         fetchMyArticles();
     }, []);
 
@@ -89,6 +92,7 @@ const MyArticles = () => {
                 </form>
             )}
 
+            {fetchingUsersArticles && <p>Loading...</p>}
             <ul>
                 {Object.values(usersArticles).map((article) => (
                     <li key={article.id}>
