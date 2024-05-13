@@ -16,13 +16,15 @@ exports.m_getUserArticles = async (userId) => {
 };
 
 exports.m_createArticle = async (articleData) => {
-    const { author_id, title, content } = articleData;
+    const { author_id, author_username, title, content } = articleData;
+    console.log("IN ARTICLE MODEL: ", author_id, author_username, title, content);
     const { data, error } = await supabase
         .from('articles')
-        .insert([{ author_id, title, content }]);
-    //console.log(data)
+        .insert([{ author_id, author_username, title, content }])
+        .select('*');
+    console.log("IN MODEL FINAL DATA: ", data);
     if (error) throw error;
-    return data;
+    return data[0];
 };
 
 exports.m_updateArticle = async (articleId, updatedData) => {
@@ -30,9 +32,10 @@ exports.m_updateArticle = async (articleId, updatedData) => {
     const { data, error } = await supabase
         .from('articles')
         .update({ title, content })
-        .eq('id', articleId);
+        .eq('id', articleId)
+        .select('*');
     if (error) throw error;
-    return data;
+    return data[0];
 };
 
 exports.m_deleteArticle = async (articleId) => {

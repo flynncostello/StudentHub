@@ -10,13 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../slices/userSlice';
 
-import { clearUserSlice } from '../../slices/userSlice';
-import { clearFriendsSlice } from '../../slices/friendsSlice';
-import { clearRequests } from '../../slices/friendRequestsSlice';
-import { resetChatroom } from '../../slices/chatroomSlice';
-import { resetAllGroupChatrooms, resetActiveGroupChatroom } from '../../slices/groupChatroomSlice';
-
 import { useDispatch } from 'react-redux';
+import clearSlices from './clearSlices';
 
 import userAPI from '../../api/user';
 import ROUTES from '../../routes';
@@ -48,36 +43,24 @@ const User = () => {
             await userAPI.updateUser(user.id, { is_active: false }) // Update user's is_active status in database
 
             alert('Logged out successfully!');                
-            dispatch(clearUserSlice()); // Clear user slice
-            dispatch(clearFriendsSlice()); // Clear friends slice
-            dispatch(clearRequests()); // Clear friend requests slice
-            dispatch(resetChatroom()); // Clear chatroom slice
-            dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-            dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+            clearSlices(dispatch);
             navigate('/'); // Redirect to home page
 
             const response = await axios.get(`${API_ENDPOINT}/logout`);
 
             if (response.data.success) {
                 alert('Logged out successfully!');                
-                dispatch(clearUserSlice()); // Clear user slice
-                dispatch(clearFriendsSlice()); // Clear friends slice
-                dispatch(clearRequests()); // Clear friend requests slice
-                dispatch(resetChatroom()); // Clear chatroom slice
-                dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-                dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+                clearSlices(dispatch);
                 navigate('/'); // Redirect to home page
             } else {
                 alert('Logout failed:', response.data.message);
             }
-            // Also need to clear user slice - need to clear all slices
         } catch (error) {
             alert('Error: ' + error);
         }
     };
     
     const handleAccountSettings = () => {
-        //console.log("Going to account settings of user with id: ", user.id);
         navigate(ROUTES.userAccount(user.id))
     }
 

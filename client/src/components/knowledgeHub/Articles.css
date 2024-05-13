@@ -1,0 +1,8 @@
+/* Articles.css */
+.articles-container {
+    display: flex;
+}
+
+.articles-section {
+    flex: 1;
+}

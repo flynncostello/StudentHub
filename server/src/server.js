@@ -113,8 +113,12 @@ app.use("/api/chatrooms", isAuthenticated, chatroomsRouter);
 app.use("/api/messages", isAuthenticated, messagesRouter);
 app.use("/api/chatroom_shared_secret", isAuthenticated, chatroomSharedSecretRouter);
 app.use("/api/group_chatrooms", isAuthenticated, groupChatroomsRouter);
-app.use("/api/articles", isAuthenticated, articlesRouter);
-app.use("/api/comments", isAuthenticated, commentsRouter);
+
+app.use("/api/articles", articlesRouter);
+app.use("/api/comments", commentsRouter);
+//app.use("/api/articles", isAuthenticated, articlesRouter);
+//app.use("/api/comments", isAuthenticated, commentsRouter);
+
 
 app.get('/api/sessionInfo', (req, res) => {
   console.log('$$$ Current session id is: ', req.session.id);

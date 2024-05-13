@@ -10,10 +10,10 @@ exports.m_getArticlesComments = async (articleId) => {
 };
 
 exports.m_createComment = async (commentData) => {
-    const { article_id, writer_id, content } = commentData;
+    const { article_id, writer_id, writer_username, content } = commentData;
     const { data, error } = await supabase
         .from('comments')
-        .insert([{ article_id, writer_id, content }]);
+        .insert([{ article_id, writer_id, writer_username, content }]);
     if (error) throw error;
     return data;
 }

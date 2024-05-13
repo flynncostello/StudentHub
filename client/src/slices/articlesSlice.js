@@ -14,7 +14,7 @@ const articlesSlice = createSlice({
     'd123sdf424fwg': {
       id: 'd123sdf424fwg',
       author_id: '13gf0893jfs',
-      author_name: 'Flynn', <-- Need to retrieve from database when getting article
+      author_username: 'Flynn', <-- Need to retrieve from database when getting article
       title: 'Title 1',
       content: 'Content 1',
       created_at: 'date/time',
@@ -36,6 +36,7 @@ const articlesSlice = createSlice({
     'd123sdf424fwg': {
       id: 'd123sdf424fwg',
       author_id: '13gf0893jfs',
+      author_username: 'Flynn', <-- Need to retrieve from database when getting article
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
@@ -44,6 +45,7 @@ const articlesSlice = createSlice({
             id: '232890fgnsi',
             article_id: 'd123sdf424fwg',
             writer_id: '13gf0893jfs',
+            writer_name: 'Dan', <-- Need to retrieve from database when getting article
             content: 'Comment 1',
         },
         ...
@@ -56,6 +58,7 @@ const articlesSlice = createSlice({
     'd123sdf424fwg': {
       id: 'd123sdf424fwg',
       author_id: '13gf0893jfs',
+      author_username: 'Flynn', <-- Need to retrieve from database when getting article
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
@@ -64,6 +67,7 @@ const articlesSlice = createSlice({
             id: '232890fgnsi',
             article_id: 'd123sdf424fwg',
             writer_id: '13gf0893jfs',
+            writer_name: 'Dan', <-- Need to retrieve from database when getting article
             content: 'Comment 1',
         },
         ...
@@ -76,6 +80,9 @@ const articlesSlice = createSlice({
   reducers: {
     setArticles: (state, action) => {
         state.articles = action.payload;
+    },
+    clearArticles: (state) => {
+        state.articles = {};
     },
     addArticle: (state, action) => {
         state.articles[action.payload.id] = action.payload;
@@ -100,6 +107,9 @@ const articlesSlice = createSlice({
     setMyArticles: (state, action) => {
         state.myArticles = action.payload;
     },
+    clearMyArticles: (state) => {
+        state.myArticles = {};
+    },
     addMyArticle: (state, action) => {
         state.myArticles[action.payload.id] = action.payload;
     },
@@ -123,6 +133,9 @@ const articlesSlice = createSlice({
     setFavouriteArticles: (state, action) => {
         state.favouriteArticles = action.payload;
     },
+    clearFavouriteArticles: (state) => {
+        state.favouriteArticles = {};
+    },
     addFavouriteArticle: (state, action) => {
         state.favouriteArticles[action.payload.id] = action.payload;
     },
@@ -143,6 +156,7 @@ const articlesSlice = createSlice({
 
 export const {
     setArticles,
+    clearArticles,
     addArticle,
     updateArticle,
     deleteArticle,
@@ -151,6 +165,7 @@ export const {
     deleteArticleComment,
 
     setMyArticles,
+    clearMyArticles,
     addMyArticle,
     updateMyArticle,
     deleteMyArticle,
@@ -159,12 +174,13 @@ export const {
     deleteMyArticleComment,
 
     setFavouriteArticles,
+    clearFavouriteArticles,
     addFavouriteArticle,
     deleteFavouriteArticle,
     setFavouriteArticleComments,
     addFavouriteArticleComment,
     deleteFavouriteArticleComment,
-    
+
 } = articlesSlice.actions;
 
 export const selectArticles = (state) => state.articles.articles || {};

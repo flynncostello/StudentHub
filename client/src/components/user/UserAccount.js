@@ -1,18 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser, clearUser } from '../../slices/userSlice';
+import { selectUser } from '../../slices/userSlice';
 import userAPI from '../../api/user';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { clearUserSlice } from '../../slices/userSlice';
-import { clearFriendsSlice } from '../../slices/friendsSlice';
-import { clearRequests } from '../../slices/friendRequestsSlice';
-import { resetChatroom } from '../../slices/chatroomSlice';
-import { resetAllGroupChatrooms, resetActiveGroupChatroom } from '../../slices/groupChatroomSlice';
-
 import { API_ENDPOINT } from '../../api/index'
 import './UserAccount.css';
+import clearSlices from './clearSlices';
 
 /*
 Process:
@@ -33,24 +28,14 @@ const UserAccount = () => {
         await userAPI.deleteUser(user.id);
 
         alert('Account deleted successfully!');
-        dispatch(clearUserSlice());
-        dispatch(clearFriendsSlice());
-        dispatch(clearRequests());
-        dispatch(resetChatroom());
-        dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-        dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+        clearSlices(dispatch);
         navigate('/');
 
         const response = await axios.get(`${API_ENDPOINT}/logout`);
   
         if (response.data.success) {
           alert('Account deleted successfully!');
-          dispatch(clearUserSlice());
-          dispatch(clearFriendsSlice());
-          dispatch(clearRequests());
-          dispatch(resetChatroom());
-          dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-          dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+          clearSlices(dispatch);
           navigate('/');
         } else {
           alert('Failed to logout after deleting account.');
@@ -68,24 +53,14 @@ const UserAccount = () => {
       userAPI.updateUser(user.id, { is_active: false })
 
       alert('Logged out successfully!');                
-      dispatch(clearUserSlice()); // Clear user slice
-      dispatch(clearFriendsSlice()); // Clear friends slice
-      dispatch(clearRequests()); // Clear friend requests slice
-      dispatch(resetChatroom()); // Clear chatroom slice
-      dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-      dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+      clearSlices(dispatch);
       navigate('/'); // Redirect to home page
 
       const response = await axios.get(`${API_ENDPOINT}/logout`);
       
       if (response.data.success) {
         alert('Logged out successfully!');                
-        dispatch(clearUserSlice()); // Clear user slice
-        dispatch(clearFriendsSlice()); // Clear friends slice
-        dispatch(clearRequests()); // Clear friend requests slice
-        dispatch(resetChatroom()); // Clear chatroom slice
-        dispatch(resetAllGroupChatrooms()); // Clear group chatrooms slice
-        dispatch(resetActiveGroupChatroom()); // Clear active group chatroom slice
+        clearSlices(dispatch);
         navigate('/'); // Redirect to home page
       } else {
           alert('Logout failed:', response.data.message);

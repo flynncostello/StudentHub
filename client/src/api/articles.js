@@ -20,12 +20,14 @@ const articlesAPI = {
             throw error;
         }
     },
-    createArticle: async (user_id, article_info) => {
+    createArticle: async (user, article_info) => {
         const article_data = {
-            aurthor_id: user_id,
+            author_id: user.id,
+            author_username: user.username,
             title: article_info.title,
             content: article_info.content
         }
+        //console.log("ARTICLE DATA: ", article_data)
         try {
             const response = await axios.post(`${API_ENDPOINT}/articles/normal`, article_data);
             return response.data;

@@ -1,40 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import articlesAPI from '../../api/articles';
+import commentsAPI from '../../api/comments';
 import './MyArticles.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setMyArticles,
+    clearMyArticles,
+    addMyArticle,
+    updateMyArticle,
+    deleteMyArticle,
+    setMyArticleComments,
+    addMyArticleComment,
+    deleteMyArticleComment,
 
-const MyArticles = ({ user_id }) => {
-    const [articles, setArticles] = useState([]);
+    selectMyArticles
+} from '../../slices/articlesSlice';
+import { selectUser } from '../../slices/userSlice';
+import { formatDate } from '../../utils';
+
+
+const MyArticles = () => {
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [newArticle, setNewArticle] = useState({ title: '', content: '' });
 
+    const dispatch = useDispatch();
+
+    const usersArticles = useSelector(selectMyArticles);
+    const user = useSelector(selectUser);
+
     useEffect(() => {
-        // Fetch the user's articles when the component mounts
-        const fetchArticles = async () => {
+        const fetchMyArticles = async () => {
             try {
-                const articles = await articlesAPI.getMyArticles(user_id);
-                setArticles(articles);
+                console.log("LOADING USERS ARTICLES")
+                const usersFetchedArticles = await articlesAPI.getUsersArticles(user.id);
+                usersFetchedArticles.forEach(async (article) => {
+                    const articles_comments = await commentsAPI.getArticlesComments(article.id);
+                    const users_article_obj = {
+                        ...article,
+                        date: formatDate(article.date),
+                        comments: articles_comments
+                    }
+                    dispatch(addMyArticle(users_article_obj));
+                });
             } catch (error) {
-                console.error('Error fetching articles:', error);
+                console.error('Error fetching users articles:', error);
             }
         };
 
-        fetchArticles();
-    }, [user_id]);
+        fetchMyArticles();
+    }, []);
 
+    
     const handleCreateArticle = async (e) => {
         e.preventDefault();
-
         try {
-            await articlesAPI.createArticle(user_id, newArticle);
-            // Refresh the articles list after creating a new article
-            const updatedArticles = await articlesAPI.getMyArticles(user_id);
-            setArticles(updatedArticles);
+            console.log("BEFORE SUBMITTING TO DB: ", newArticle, ", ", user);
+            const usersNewArticle = await articlesAPI.createArticle(user, newArticle);
+            console.log("NEW ARTICLE CREATED BY USER: ", usersNewArticle)
+            dispatch(addMyArticle(usersNewArticle))
+            
             setNewArticle({ title: '', content: '' });
             setShowCreateForm(false);
         } catch (error) {
             console.error('Error creating article:', error);
         }
     };
+    
 
     return (
         <div>
@@ -59,11 +90,13 @@ const MyArticles = ({ user_id }) => {
             )}
 
             <ul>
-                {articles.map((article) => (
+                {Object.values(usersArticles).map((article) => (
                     <li key={article.id}>
                         <h2>{article.title}</h2>
-                        <p>{article.date}</p>
-                        <p>{article.text}</p>
+                        <p>{article.author_id}</p>
+                        <p>{article.author_username}</p>
+                        <p>{article.created_at}</p>
+                        <p>{article.content}</p>
                         <button>Edit</button>
                         <button>Delete</button>
                     </li>
