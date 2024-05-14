@@ -29,6 +29,9 @@ import ROUTES from '../../routes';
 import './Article.css';
 import { formatDate, getRoleText } from '../../utils';
 import HubNavbar from '../hub/HubNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+
 
 
 const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
@@ -256,66 +259,116 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
         article && Object.keys(article).length > 0 && (
             <div>
                 <HubNavbar />
-                <button 
-                    onClick={favouriteArticleClicked} 
-                    style={{ backgroundColor: articleFavourited ? 'red' : 'grey' }}
-                >
-                    Favourite
-                </button>
-                <h1>{article.title}</h1>
-                <h3>{article.created_at}</h3>
-                <h4>Author: {article.author_username}</h4>
-                <p>Role: {getRoleText(article.author_role)}</p>
-                <p>{article.content}</p>
-
-                {canEditArticle && (
-                    <button onClick={() => setEditArticleMode(true)}>Edit</button>
-                )}
-                {canDeleteArticle && (
-                    <button onClick={handleDeleteArticle}>Delete</button>
-                )}
-
-                {editArticleMode && (
-                    <div>
-                        <input
-                            placeholder='Title'
-                            type="text"
-                            value={newArticleTitle}
-                            onChange={(e) => setNewArticleTitle(e.target.value)}
-                        />
-                        <textarea
-                            placeholder='Content'
-                            value={newArticleContent}
-                            onChange={(e) => setNewArticleContent(e.target.value)}
-                        />
-                        <button onClick={handleEditArticle}>Submit</button>
-                    </div>
-                )}
-
-
-                <h3>Comments</h3>
-                <div className='article-comments-container'>
-                    {article.comments && Object.values(article.comments).map(comment => (
-                        <div key={comment.id}>
-                            <p>{comment.content} ({comment.writer_username}) - {comment.created_at}</p>
-                            {canDeleteComments && (
-                                <button onClick={() => handleDeleteComment(comment.id)}>Delete</button>
-                            )}
+                <div className="article-container">
+                    <div className="article-actions">
+                        {canEditArticle && (
+                            <button className="edit-btn" onClick={() => setEditArticleMode(true)}>
+                            Edit
+                            </button>
+                        )}
+                        {canDeleteArticle && (
+                            <button className="delete-btn" onClick={handleDeleteArticle}>
+                            Delete
+                            </button>
+                        )}
+                        <div class="con-like" onClick={favouriteArticleClicked}>
+                            <input class="like" type="checkbox" title="like" checked={articleFavourited} />
+                            <div class="checkmark">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="outline" viewBox="0 0 24 24">
+                                <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Zm-3.585,18.4a2.973,2.973,0,0,1-3.83,0C4.947,16.006,2,11.87,2,8.967a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,8.967a1,1,0,0,0,2,0,4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,8.967C22,11.87,19.053,16.006,13.915,20.313Z"></path>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="filled" viewBox="0 0 24 24">
+                                <path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"></path>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" class="celebrate">
+                                <polygon class="poly" points="10,10 20,20"></polygon>
+                                <polygon class="poly" points="10,50 20,50"></polygon>
+                                <polygon class="poly" points="20,80 30,70"></polygon>
+                                <polygon class="poly" points="90,10 80,20"></polygon>
+                                <polygon class="poly" points="90,50 80,50"></polygon>
+                                <polygon class="poly" points="80,80 70,70"></polygon>
+                                </svg>
+                            </div>
                         </div>
-                    ))}
-                </div>
-                
-                <button onClick={checkIfCanComment}>Add Comment</button>
-                {createCommentMode && (
-                    <div>
-                        <textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                        ></textarea>
-                        <button onClick={handleAddComment}>Submit</button>
-                    </div>
-                )}
 
+                    </div>
+
+                    <div className="article-header">
+                        <h1 className="article-title">{article.title}</h1>
+
+                        <div className="article-meta">
+                            <h3 className="article-date">{article.created_at}</h3>
+                            <h4 className="article-author">Author: {article.author_username}</h4>
+                            <p className="article-role">Role: {getRoleText(article.author_role)}</p>
+                        </div>
+
+                    </div>
+
+                    <div className="article-content">
+                        <p>{article.content}</p>
+                    </div>
+
+
+
+                    {editArticleMode && (
+                        <div className="article-edit-form">
+                            <input
+                                className="article-edit-title"
+                                placeholder="Title"
+                                type="text"
+                                value={newArticleTitle}
+                                onChange={(e) => setNewArticleTitle(e.target.value)}
+                            />
+                            <textarea
+                                className="article-edit-content"
+                                placeholder="Content"
+                                value={newArticleContent}
+                                onChange={(e) => setNewArticleContent(e.target.value)}
+                            />
+                            <button className="submit-btn" onClick={handleEditArticle}>
+                                Submit
+                            </button>
+                        </div>
+                    )}
+
+                    <h3 className="comments-heading">Comments</h3>
+                    <div className="comments-container">
+                        {article.comments && Object.values(article.comments).map((comment) => (
+                            <div key={comment.id} className="comment-item">
+                                <div className='comment-content'>
+                                    <p><strong>{comment.writer_username}</strong> ({comment.created_at})</p>
+                                    <p>{comment.content}</p>
+                                </div>
+                                {canDeleteComments && (
+                                    <button
+                                        className="delete-comment-btn"
+                                        onClick={() => handleDeleteComment(comment.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <button className="add-comment-btn" onClick={checkIfCanComment}>
+                        Add Comment
+                    </button>
+
+                    {createCommentMode && (
+                        <div className="comment-form">
+                            <textarea
+                                className="comment-textarea"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                            ></textarea>
+                            <button className="submit-btn" onClick={handleAddComment}>
+                                Submit
+                            </button>
+                        </div>
+                    )}
+
+                </div>
             </div>
         )
     );

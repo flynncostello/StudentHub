@@ -10,6 +10,9 @@
     cursor: pointer; /* Change cursor to pointer on hover */
     background-color: rgb(227, 227, 227);
     border-radius: 50%; /* Make the user icon round */
+    height: 37px;
+    width: 25px;
+    margin-top: -5px;
 }
 
 .user-icon:hover {

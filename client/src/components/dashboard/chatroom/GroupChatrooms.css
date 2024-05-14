@@ -5,6 +5,7 @@
     align-items: flex-start;
     padding: 5px 20px;
     margin: 5px;
+    translate: 0 -20px;
 }
 
 /* Title */
@@ -65,10 +66,10 @@
 .create-new-group-chatroom-form {
     z-index: 100;
     position: absolute;
-    top: 38%;
-    right: 14vw; /* Position the tab 50px to the right of the icon */
-    width: 20%;
-    height: 50%;
+    top: -180px;
+    right: 26vw;
+    width: 50%;
+    height: 130%;
     background-color: #fff;
     border: 1.5px solid #d4d4d4;
     border-radius: 3px;

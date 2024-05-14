@@ -61,18 +61,18 @@ const OtherArticles = () => {
 
 
     return (
-        <div className='my-articles-container'>
+        <div className='all-articles-page-container'>
             <h1>All Articles</h1>
 
             {fetchingAllArticles && <p>Loading...</p>}
-            <ul className='my-articles-list-container'>
+            <ul className='other-articles-list-container'>
                 {Object.values(allArticles).map((article) => (
-                    <div className='my-article-container'>
-                        <Link to={ROUTES.article(article.id, 'other')}>
+                    <div className='all-articles-container'>
+                        <Link className='article-link' to={ROUTES.article(article.id, 'other')}>
                             <li key={article.id}>
-                                <h2>{article.title}</h2>
+                                <p>{article.title}</p>
                                 <p>{article.author_username} ({getRoleText(article.author_role)})</p>
-                                <p>{article.created_at}</p>                
+                                <p>({article.created_at})</p>                
                             </li>
                         </Link>
                     </div>

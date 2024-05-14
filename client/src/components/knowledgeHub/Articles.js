@@ -8,7 +8,6 @@ const Articles = () => {
     return (
         <div>
             <HubNavbar />
-            <h1>Articles</h1>
             <div className="articles-container">
                 <div className="articles-section">
                     <OtherArticles />

@@ -1,6 +1,7 @@
 /* Articles.css */
 .articles-container {
     display: flex;
+    margin: 20px 50px;
 }
 
 .articles-section {

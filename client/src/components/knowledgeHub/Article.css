@@ -1,4 +1,278 @@
-.article-comments-container {
-    max-height: 300px;
+/* General Styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .article-container {
+    max-width: 75%;
+    border: 1px solid gainsboro;
+    height: 75vh;
     overflow-y: scroll;
-}
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  
+  /* Article Header */
+  .article-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  
+  .article-title {
+    font-size: 36px;
+    margin-top: 10px;
+  }
+  
+  .article-meta {
+    margin-top: 10px;
+  }
+  
+  .article-date,
+  .article-author,
+  .article-role {
+    margin: 5px 0;
+  }
+  
+  /* Article Content */
+  .article-content {
+    line-height: 1.8;
+    margin-bottom: 30px;
+  }
+  
+  /* Article Actions */
+  .article-actions {
+    position: absolute;
+    top: 130px;
+    right: 180px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-btn {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .delete-btn {
+    background-color: #ff3527;
+    color: white;
+  }
+  
+  
+  .edit-btn:hover,
+  .delete-btn:hover {
+    opacity: 0.8;
+  }
+  
+  /* Article Edit Form */
+  .article-edit-form {
+    margin-bottom: 30px;
+  }
+  
+  .article-edit-title,
+  .article-edit-content {
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .article-edit-content {
+    height: 200px;
+  }
+  
+  /* Comments */
+  .comments-heading {
+    margin-top: 50px;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .comments-container {
+    margin-bottom: 20px;
+  }
+  
+  .comment-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .comment-content {
+    margin-bottom: 5px;
+  }
+
+  .comment-content p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .delete-comment-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-comment-btn:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Add Comment */
+  .add-comment-btn {
+    background-color: #2196f3;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px;
+  }
+  
+  .add-comment-btn:hover {
+    background-color: #1976d2;
+  }
+  
+  .comment-form {
+    margin-bottom: 30px;
+  }
+  
+  .comment-textarea {
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    height: 100px;
+  }
+  
+  /* Submit Button */
+  .submit-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #388e3c;
+  }
+
+
+  .con-like {
+    margin-left: 10px;
+    --red: rgb(255, 0, 93);
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .con-like .like {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  .con-like .checkmark {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .con-like .outline,
+  .con-like .filled {
+    fill: var(--red);
+    position: absolute;
+  }
+  
+  .con-like .filled {
+    animation: kfr-filled 0.5s;
+    display: none;
+  }
+  
+  .con-like .celebrate {
+    position: absolute;
+    animation: kfr-celebrate 0.5s;
+    animation-fill-mode: forwards;
+    display: none;
+  }
+  
+  .con-like .poly {
+    stroke: var(--red);
+    fill: var(--red);
+  }
+  
+  .con-like .like:checked ~ .checkmark .filled {
+    display: block
+  }
+  
+  .con-like .like:checked ~ .checkmark .celebrate {
+    display: block
+  }
+  
+  @keyframes kfr-filled {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+  
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+  
+  @keyframes kfr-celebrate {
+    0% {
+      transform: scale(0);
+    }
+  
+    50% {
+      opacity: 0.8;
+    }
+  
+    100% {
+      transform: scale(1.2);
+      opacity: 0;
+      display: none;
+    }
+  }

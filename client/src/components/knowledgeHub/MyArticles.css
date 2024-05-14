@@ -1,9 +1,139 @@
 .my-articles-container {
+    height: 80vh;
+    padding: 5px 60px 0 0;
     display: flex;
     flex-direction: column;
-    max-height: 85vh;
+    max-height: 80vh;
+    overflow-y: scroll;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
 }
 
-.my-articles-list-container {
-    overflow-y: scroll;
+.top-section-of-my-articles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-section-of-my-articles h1 {
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.create-new-article-user-button {
+    background-color: rgb(148, 85, 206);
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 1px solid rgb(173, 173, 173);
+    padding: 5px 10px;
+    box-shadow: 5px black;
+    cursor: pointer;
+}
+
+.create-new-article-user-button:hover {
+    opacity: 0.7;
+}
+
+
+.my-article-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.my-article-link {
+    margin-left: -20px;
+    border: 1px solid rgb(159, 159, 159);
+    border-radius: 5px;
+    margin-bottom: 1px;
+    padding: 0 30px;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    width: 86%;
+}
+
+.my-article-link:hover {
+    background-color: #f0f0f0;
+}
+
+.my-article-link li {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    color: black;    
+}
+
+.my-article-link {
+    text-decoration: none;
+}
+
+.delete-my-article-button {
+    color: red;
+    font-size: 20px;
+    align-self: center;
+    cursor: pointer;
+}
+
+.delete-my-article-button:hover {
+    opacity: 0.7;
+}
+
+.loading-text-my-articles {
+    margin-top: -5px;
+    margin-left: 25px;
+}
+
+
+.my-form {
+    border: 1px solid rgb(204, 204, 204);
+    background-color: white;
+    position: absolute;
+    top: 21%;
+    left: 63%;
+    width: 320px;
+    height: 500px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 100;
+}
+
+.close-button {
+    align-self: flex-start;
+}
+
+.form-input-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    width: 80%;
+    height: 5%;
+    margin: 20px 0 10px 0;
+}
+
+.form-input-content {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    width: 80%;
+    height: 60%;
+    margin: 20px 0;
+}
+
+.submit-button {
+    background-color: rgb(148, 85, 206);
+    color: white;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 1px solid rgb(173, 173, 173);
+    padding: 5px 10px;
+    width: 40%;
+    box-shadow: 5px black;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    opacity: 0.8;
 }

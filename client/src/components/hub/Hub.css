@@ -50,11 +50,14 @@
     padding: 20px 10px;
     border: 1px solid black;
     background: linear-gradient(to right, rgb(80, 44, 176), rgb(197, 215, 255));
+    z-index: 100;
   }
 
 .hub-navbar ul {
     margin: 0;
     padding: 0;
+    z-index: 100;
+
 }
   
 .hub-navbar ul li {

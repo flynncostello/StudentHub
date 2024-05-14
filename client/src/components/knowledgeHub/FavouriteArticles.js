@@ -61,25 +61,27 @@ const OtherArticles = () => {
 
 
     return (
-        <div className='my-articles-container'>
+        <div>
             <HubNavbar />
-            
-            <h1>Favourite Articles</h1>
-
-            {fetchingAllArticles && <p>Loading...</p>}
-            <ul className='my-articles-list-container'>
-                {Object.values(allArticles).map((article) => (
-                    <div className='my-article-container'>
-                        <Link to={ROUTES.article(article.id, 'other')}>
-                            <li key={article.id}>
-                                <h2>{article.title}</h2>
-                                <p>{article.author_username} ({getRoleText(article.author_role)})</p>
-                                <p>{article.created_at}</p>                
-                            </li>
-                        </Link>
-                    </div>
-                ))}
-            </ul>
+            <div className='all-favourite-articles-page-container'>            
+                <h1>Favourite Articles</h1>
+    
+                {fetchingAllArticles && <p>Loading...</p>}
+                {Object.keys(allArticles).length === 0 && !fetchingAllArticles && <p>No favourite articles...</p>}
+                <ul className='other-articles-list-container'>
+                    {Object.values(allArticles).map((article) => (
+                        <div className='all-articles-container'>
+                            <Link className='article-link' to={ROUTES.article(article.id, 'other')}>
+                                <li key={article.id}>
+                                    <p>{article.title}</p>
+                                    <p>{article.author_username} ({getRoleText(article.author_role)})</p>
+                                    <p>({article.created_at})</p>                
+                                </li>
+                            </Link>
+                        </div>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
