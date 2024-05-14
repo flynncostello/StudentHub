@@ -1,15 +1,17 @@
 import React from 'react';
 import MyArticles from './MyArticles';
+import OtherArticles from './OtherArticle';
 import './Articles.css'; // Import the CSS file
+import HubNavbar from '../hub/HubNavbar';
 
 const Articles = () => {
     return (
         <div>
+            <HubNavbar />
             <h1>Articles</h1>
             <div className="articles-container">
                 <div className="articles-section">
-                    <h2>Articles from others</h2>
-                    {/* Add content for articles from others */}
+                    <OtherArticles />
                 </div>
                 <div className="articles-section">
                     <MyArticles />

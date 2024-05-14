@@ -18,7 +18,7 @@ const articlesSlice = createSlice({
       title: 'Title 1',
       content: 'Content 1',
       created_at: 'date/time',
-      comments: [
+      comments: {
         '232890fgnsi': {
             id: '232890fgnsi',
             article_id: 'd123sdf424fwg',
@@ -27,7 +27,7 @@ const articlesSlice = createSlice({
             content: 'Comment 1',
         },
         ...
-      ],
+      },
     },
     ...
   }
@@ -40,7 +40,7 @@ const articlesSlice = createSlice({
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
-      comments: [
+      comments: {
         '232890fgnsi': {
             id: '232890fgnsi',
             article_id: 'd123sdf424fwg',
@@ -49,7 +49,7 @@ const articlesSlice = createSlice({
             content: 'Comment 1',
         },
         ...
-      ],
+    },
     },
     ...
   }
@@ -62,7 +62,7 @@ const articlesSlice = createSlice({
       title: 'Title 1',
       content: 'Content 1',
       created_at: date,
-      comments: [
+      comments: {
         '232890fgnsi': {
             id: '232890fgnsi',
             article_id: 'd123sdf424fwg',
@@ -71,7 +71,7 @@ const articlesSlice = createSlice({
             content: 'Comment 1',
         },
         ...
-      ],
+      },
     },
     ...
   }
@@ -88,7 +88,9 @@ const articlesSlice = createSlice({
         state.articles[action.payload.id] = action.payload;
     },
     updateArticle: (state, action) => {
-        state.articles[action.payload.id] = action.payload;
+        const { id, title, content } = action.payload;
+        state.articles[id].title = title;
+        state.articles[id].content = content;
     },
     deleteArticle: (state, action) => {
         delete state.articles[action.payload.id];
@@ -114,7 +116,9 @@ const articlesSlice = createSlice({
         state.myArticles[action.payload.id] = action.payload;
     },
     updateMyArticle: (state, action) => {
-        state.myArticles[action.payload.id] = action.payload;
+        const { id, title, content } = action.payload;
+        state.myArticles[id].title = title;
+        state.myArticles[id].content = content;
     },
     deleteMyArticle: (state, action) => {
         delete state.myArticles[action.payload.id];

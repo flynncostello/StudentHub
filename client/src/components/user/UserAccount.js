@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { API_ENDPOINT } from '../../api/index'
 import './UserAccount.css';
 import clearSlices from './clearSlices';
+import { getRoleText } from '../../utils';
+
+import HubNavbar from '../hub/HubNavbar';
+
 
 /*
 Process:
@@ -71,22 +75,24 @@ const UserAccount = () => {
 };
 
   return (
-    <div className='user-account-page'>
-      <div className='user-info-container'>
-        {/* User Information */}
-        <h1>User Account</h1>
-        <p>User ID: {user.id}</p>
-        <p>Username: {user.username}</p>
-        <p>Role: {user.role}</p>
-        {/* <p>Password: {user.password}</p> Not displaying password */}
-        <p>Is Active: {user.is_active ? 'Yes' : 'No'}</p>
-      </div>
-      <div className='user-account-buttons'>
-        {/* Buttons */}
-        <button onClick={handleDeleteAccount}>Delete Account</button>
-        <button onClick={handleLogout}>Logout</button>
+    <div>
+      <HubNavbar />
+      <div className='user-account-page'>
+        <div className='user-info-container'>
+          {/* User Information */}
+          <h1>User Account</h1>
+          <p><u>User ID:</u> {user.id}</p>
+          <p><u>Username:</u> {user.username}</p>
+          <p><u>Role:</u> {getRoleText(user.role)}</p>
+        </div>
+        <div className='user-account-buttons'>
+          {/* Buttons */}
+          <button onClick={handleDeleteAccount}>Delete Account</button>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </div>
     </div>
+
   );
 };
 

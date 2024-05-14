@@ -16,11 +16,11 @@ exports.m_getUserArticles = async (userId) => {
 };
 
 exports.m_createArticle = async (articleData) => {
-    const { author_id, author_username, title, content } = articleData;
-    console.log("IN ARTICLE MODEL: ", author_id, author_username, title, content);
+    const { author_id, author_username, author_role, title, content } = articleData;
+    //console.log("IN ARTICLE MODEL: ", author_id, author_username, title, content);
     const { data, error } = await supabase
         .from('articles')
-        .insert([{ author_id, author_username, title, content }])
+        .insert([{ author_id, author_username, author_role, title, content }])
         .select('*');
     console.log("IN MODEL FINAL DATA: ", data);
     if (error) throw error;
@@ -77,6 +77,9 @@ exports.m_favouriteArticle = async (userId, articleId) => {
 };
 
 exports.m_unfavouriteArticle = async (userId, articleId) => {
+    console.log("IN UNFAVOURITE ARTICLE MODEL")
+    console.log(userId)
+    console.log(articleId)
     const { data, error } = await supabase
         .from('favourite_articles')
         .delete()

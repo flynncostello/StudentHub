@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import articlesAPI from '../../api/articles';
 import commentsAPI from '../../api/comments';
-import './OtherArticle.css';
+import './FavouriteArticles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     addArticle,
@@ -13,7 +13,7 @@ import { formatToJustDate, formatDate } from '../../utils';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../routes';
 import { getRoleText } from '../../utils';
-
+import HubNavbar from '../hub/HubNavbar';
 
 const OtherArticles = () => {
     const [fetchingAllArticles, setFetchingAllArticles] = useState(false);
@@ -30,7 +30,7 @@ const OtherArticles = () => {
         const fetchAllArticles = async () => {
             try {
                 console.log("LOADING ALL ARTICLES")
-                const allFetchedArticles = await articlesAPI.getAllArticles();
+                const allFetchedArticles = await articlesAPI.getUsersFavouritedArticles(user.id);
                 allFetchedArticles.forEach(async (article) => {
                     const articles_comments = await commentsAPI.getArticlesComments(article.id);
                     const commentsObject = articles_comments.reduce((obj, comment) => {
@@ -62,7 +62,9 @@ const OtherArticles = () => {
 
     return (
         <div className='my-articles-container'>
-            <h1>All Articles</h1>
+            <HubNavbar />
+            
+            <h1>Favourite Articles</h1>
 
             {fetchingAllArticles && <p>Loading...</p>}
             <ul className='my-articles-list-container'>

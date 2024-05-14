@@ -24,6 +24,7 @@ const articlesAPI = {
         const article_data = {
             author_id: user.id,
             author_username: user.username,
+            author_role: user.role,
             title: article_info.title,
             content: article_info.content
         }
@@ -43,7 +44,7 @@ const articlesAPI = {
         }
         try {
             const response = await axios.put(`${API_ENDPOINT}/articles/normal/${article_id}`, updated_article_data);
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Error updating article:', error);
             throw error;
@@ -63,7 +64,7 @@ const articlesAPI = {
 
     getUsersFavouritedArticles: async (user_id) => {
         try {
-            const response = await axios.get(`${API_ENDPOINT}/articles/favourited/${user_id}`);
+            const response = await axios.get(`${API_ENDPOINT}/articles/favourite/${user_id}`);
             return response.data;
         } catch (error) {
             console.error('Error getting users favourite articles:', error);
@@ -81,7 +82,7 @@ const articlesAPI = {
     },
     unfavouriteArticle: async (user_id, article_id) => {
         try {
-            const response = await axios.delete(`${API_ENDPOINT}/articles/favourited/${user_id}/${article_id}`);
+            const response = await axios.delete(`${API_ENDPOINT}/articles/favourite/${user_id}/${article_id}`);
             return response;
         } catch (error) {
             console.error('Error unfavouriting article:', error);

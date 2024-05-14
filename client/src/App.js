@@ -10,7 +10,8 @@ import Hub from './components/hub/Hub';
 import Dashboard from './components/dashboard/Dashboard';
 import UserAccount from './components/user/UserAccount';
 import Articles from './components/knowledgeHub/Articles';
-import SavedArticles from './components/knowledgeHub/SavedArticles';
+import FavouriteArticles from './components/knowledgeHub/FavouriteArticles';
+import Article from './components/knowledgeHub/Article';
 
 const RouteManager = () => {
   const navigate = useNavigate();
@@ -43,11 +44,17 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+
           <Route path="/hub/:userId" element={<Hub />} />
+
           <Route path="/articles/:userId" element={<Articles />} />
-          <Route path="/savedArticles/:userId" element={<SavedArticles />} />
+          <Route path="/favouriteArticles/:userId" element={<FavouriteArticles />} />
+          <Route path="/article/:articleId/:articleType" element={<Article />} />
+
           <Route path="/dashboard/:userId" element={<Dashboard />} />
+
           <Route path="/userAccount/:userId" element={<UserAccount />} />
+
           <Route path="*" element={<RouteManager />} />
         </Routes>
       </Router>

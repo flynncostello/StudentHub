@@ -11,11 +11,12 @@ const commentsAPI = {
             throw error;
         }
     },
-    createComment: async (article_id, user_id, user_username, comment_content) => {
+    createComment: async (article_id, user_id, user_username, user_role, comment_content) => {
         const comment_data = {
             article_id: article_id,
             writer_id: user_id,
             writer_username: user_username,
+            writer_role: user_role,
             content: comment_content
         }
         try {

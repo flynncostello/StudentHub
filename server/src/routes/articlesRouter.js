@@ -16,9 +16,9 @@ router.put('/normal/:articleId', articlesController.updateArticle);
 router.delete('/normal/:articleId', articlesController.deleteArticle);
 
 // Favourited Articles
-router.get('/favourited/:userId', articlesController.getUsersFavouritedArticles);
-router.post('/favourited/:userId/:articleId', articlesController.favouriteArticle);
-router.delete('/favourited/:userId/:articleId', articlesController.unfavouriteArticle);
+router.get('/favourite/:userId', articlesController.getUsersFavouritedArticles);
+router.post('/favourite/:userId/:articleId', articlesController.favouriteArticle);
+router.delete('/favourite/:userId/:articleId', articlesController.unfavouriteArticle);
 
 
 module.exports = router;
