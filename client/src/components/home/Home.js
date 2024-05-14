@@ -13,7 +13,7 @@ const Home = () => {
       <nav className="navbar">
         {/* Logo */}
         <Link className="navbar-logo" to="/">
-          <FontAwesomeIcon icon={faGraduationCap} />
+          <FontAwesomeIcon className='graduation-cap' icon={faGraduationCap} />
           <span className="logo">StudentHub</span>
         </Link>
 

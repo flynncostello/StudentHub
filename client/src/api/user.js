@@ -2,6 +2,15 @@ import axios from './index';
 import { API_ENDPOINT } from './index';
 
 const userAPI = {
+  getAllStudents: async () => {
+    try {
+      const response = await axios.get(`${API_ENDPOINT}/users/students`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting all students:', error);
+      throw error;
+    }
+  },
   getUser: async (user_id) => {
     try {
       const response = await axios.get(`${API_ENDPOINT}/users/${user_id}`);
@@ -56,6 +65,16 @@ const userAPI = {
       return filteredUsers.slice(0, 10);
     } catch (error) {
       console.error('Error searching users:', error);
+      throw error;
+    }
+  },
+
+  setUsersMutedState: async (user_id, mute_status) => {
+    try {
+      const response = await axios.put(`${API_ENDPOINT}/users/${user_id}/mute_status`, { mute_status });
+      return response;
+    } catch (error) {
+      console.error('Error setting user muted state:', error);
       throw error;
     }
   }

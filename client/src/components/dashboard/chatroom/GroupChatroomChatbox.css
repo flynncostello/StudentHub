@@ -18,7 +18,7 @@
 .chatroom-container {
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    max-height: 85vh;
     justify-content: space-between;
 }
 

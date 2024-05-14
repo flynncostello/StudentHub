@@ -12,6 +12,7 @@ import UserAccount from './components/user/UserAccount';
 import Articles from './components/knowledgeHub/Articles';
 import FavouriteArticles from './components/knowledgeHub/FavouriteArticles';
 import Article from './components/knowledgeHub/Article';
+import StaffActions from './components/staff/StaffActions';
 
 const RouteManager = () => {
   const navigate = useNavigate();
@@ -54,6 +55,8 @@ export default function App() {
           <Route path="/dashboard/:userId" element={<Dashboard />} />
 
           <Route path="/userAccount/:userId" element={<UserAccount />} />
+          
+          <Route path="/staffActions/:userId" element={<StaffActions />} />
 
           <Route path="*" element={<RouteManager />} />
         </Routes>

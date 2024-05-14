@@ -22,7 +22,8 @@ import {
 } from '../../slices/articlesSlice';
 import articlesAPI from '../../api/articles';
 import commentsAPI from '../../api/comments';
-import { selectUser } from '../../slices/userSlice';
+import userAPI from '../../api/user';
+import { selectUser, setUserMutedState } from '../../slices/userSlice';
 import { useParams, useNavigate } from 'react-router-dom';
 import ROUTES from '../../routes';
 import './Article.css';
@@ -64,7 +65,15 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
         if (favouriteArticles[articleId]) {
             setArticleFavourited(true);
         };
-        console.log("ARTICLE IS FAVOURITED: ", articleFavourited)
+
+        const check_user_muted_state = async () => {
+            const user_data = await userAPI.getUser(user.id);
+            const user_muted_state = user_data.is_muted;
+            console.log("Users muted state: ", user_muted_state)
+            dispatch(setUserMutedState(user_muted_state));
+        };
+        check_user_muted_state();
+        
     }, []);
 
 
@@ -72,7 +81,7 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
         const fetchArticle = async () => {
             try {
                 // Getting article from state based on article type
-                if (articleType === 'mine') { // My Articles
+                if (articleType === 'mine' && !user.is_muted) { // My Articles
                     const fetchedArticle = myArticles[articleId];
                     setArticle(fetchedArticle);
                     setCanEditArticle(true);
@@ -96,7 +105,7 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
         if (article) {
             console.log("USER ID: ", user.id);
             console.log("ARTICLE AUTHOR ID: ", article.author_id);
-            if (user.id === article.author_id) {
+            if (user.id === article.author_id && !user.is_muted) {
                 setCanEditArticle(true);
                 setCanDeleteArticle(true);
                 setCanDeleteComments(true);
@@ -225,6 +234,24 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
         }
     }
 
+    const check_user_muted_state = async () => {
+        const user_data = await userAPI.getUser(user.id);
+        const user_muted_state = user_data.is_muted;
+        console.log("Users muted state: ", user_muted_state)
+        dispatch(setUserMutedState(user_muted_state));
+        return user_muted_state;
+    };
+
+    const checkIfCanComment = async (e) => {
+        e.preventDefault();
+        const user_muted = await check_user_muted_state();
+        if (user_muted) {
+            alert("You are muted and cannot comment");
+        } else {
+            setCreateCommentMode(true);
+        }
+    }
+
     return (
         article && Object.keys(article).length > 0 && (
             <div>
@@ -278,7 +305,7 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
                     ))}
                 </div>
                 
-                <button onClick={() => setCreateCommentMode(true)}>Add Comment</button>
+                <button onClick={checkIfCanComment}>Add Comment</button>
                 {createCommentMode && (
                     <div>
                         <textarea

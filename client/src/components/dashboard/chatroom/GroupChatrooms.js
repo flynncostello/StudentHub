@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './GroupChatrooms.css';
 import { selectFriends } from '../../../slices/friendsSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser } from '../../../slices/userSlice';
+import { selectUser, setUserMutedState } from '../../../slices/userSlice';
+import userAPI from '../../../api/user';
 import groupChatroomsAPI from '../../../api/groupChatrooms';
 import GroupChatroomBox from './GroupChatroomBox';
 import { selectAllGroupChatrooms, addGroupChatroomToAll } from '../../../slices/groupChatroomSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const GroupChatrooms = () => {
     //const [groupChatrooms, setGroupChatrooms] = useState([]);
@@ -51,12 +52,29 @@ const GroupChatrooms = () => {
         dispatch(addGroupChatroomToAll(new_group_chatroom))
     }
 
+    const checkIfUserCanCreateGroupChatroom = async () => {
+        const check_user_muted_state = async () => {
+            const user_data = await userAPI.getUser(user.id);
+            const user_muted_state = user_data.is_muted;
+            console.log("Users muted state: ", user_muted_state)
+            dispatch(setUserMutedState(user_muted_state));
+            return user_muted_state;
+        };
+        const muted_state = await check_user_muted_state();
+      
+        if (muted_state) {
+            alert('You are muted and cannot create a group chatroom');
+        } else {
+            setCreatingNewGroupChatroom(true)
+        }
+    };
+
     return (
         <div className='group-chatroom-container'>
             <h1>Group Chatrooms</h1>
 
             <div className='group-chatrooms-box'>
-                <button className='create-new-group-chatroom-button' onClick={() => setCreatingNewGroupChatroom(true)}>+</button>
+                <button className='create-new-group-chatroom-button' onClick={checkIfUserCanCreateGroupChatroom}>+</button>
 
                 <div className='group-chats-components-container'>
                     {Object.keys(groupChatrooms).length > 0 ? (

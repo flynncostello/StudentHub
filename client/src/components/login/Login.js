@@ -31,6 +31,7 @@ const Login = () => {
         setLoginLoading(true);
         try {
             const { data } = await axios.post(`${API_ENDPOINT}/login`, { username: loginUsername, password: loginPassword });
+            console.log("USERS DATA FROM DATABASE: ", data)
 
             if (data.success) {
                 const sessionId = data.sessionId;
@@ -52,6 +53,7 @@ const Login = () => {
                 })
                 .then(socket_id => {
                     console.log("Adding user info to slice")
+                    console.log("FINAL USER DATA: ", user_data)
                     dispatch(setUser(user_data)); // Sending data to redux slice
                     console.log("Sending user info to database, user info: ", user_data)
                     userAPI.updateUser(user_data.id, user_data); // Sending data to database

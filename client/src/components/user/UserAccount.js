@@ -84,6 +84,7 @@ const UserAccount = () => {
           <p><u>User ID:</u> {user.id}</p>
           <p><u>Username:</u> {user.username}</p>
           <p><u>Role:</u> {getRoleText(user.role)}</p>
+          <p>Is Muted: {user.is_muted}</p>
         </div>
         <div className='user-account-buttons'>
           {/* Buttons */}

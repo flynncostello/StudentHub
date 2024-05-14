@@ -11,10 +11,13 @@ TASKS
 // Search functionality
 router.get('/search', usersController.searchUsers);
 
+// Students
+router.get('/students', usersController.getAllStudents);
+
 // CRUD functionality
-router.get('/', usersController.getAllUsers);
 router.get('/:userId', usersController.getUserById);
 router.post('/', usersController.createUser);
+router.put('/:userId/mute_status', usersController.setMuteStatus);
 router.put('/:userId', usersController.updateUser);
 router.delete('/:userId', usersController.deleteUser);
 

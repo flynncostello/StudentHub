@@ -9,6 +9,7 @@ const ROUTES = {
     articles: (userId) => `/articles/${userId}`,
     favouriteArticles: (userId) => `/favouriteArticles/${userId}`,
     article: (articleId, articleType) => `/article/${articleId}/${articleType}`,
+    staffActions: (userId) => `/staffActions/${userId}`,
 };
 
 export default ROUTES;

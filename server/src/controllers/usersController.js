@@ -1,12 +1,11 @@
 const usersModel = require('../models/usersModel');
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllStudents = async (req, res) => {
     try {
-        const users = await usersModel.m_getAllUsers();
-        //console.log("USERS IN SERVER CONTROLLER, ", users)
+        const users = await usersModel.m_getAllStudents();
         res.json(users);
     } catch (error) {
-        res.status(404).json({ error: 'Users not found' });
+        res.status(404).json({ error: 'Students not found' });
     }
 }
 
@@ -62,5 +61,16 @@ exports.searchUsers = async (req, res) => {
         res.json(users);
     } catch (error) {
         res.status(404).json({ error: 'Users not found' });
+    }
+};
+
+exports.setMuteStatus = async (req, res) => {
+    const user_id = req.params.userId;
+    const mute_status = req.body.mute_status;
+    try {
+        const updated_user = await usersModel.m_setMuteStatus(user_id, mute_status);
+        res.json(updated_user);
+    } catch (error) {
+        res.status(404).json({ error: 'User not found' });
     }
 };

@@ -1,12 +1,15 @@
 const supabase = require('../services/supabaseDatabaseService');
 
 const usersModel = {
-    m_getAllUsers: async () => {
+    m_getAllStudents: async () => {
         try {
-            const { data } = await supabase.from("users").select("*");
+            const { data } = await supabase
+                .from("users")
+                .select("*")
+                .eq('role', 'student');
             return data;
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching students:', error);
             throw error;
         }
     },
@@ -106,6 +109,28 @@ const usersModel = {
             return data;
         } catch (error) {
             console.error('Error searching users:', error);
+            throw error;
+        }
+    },
+
+    m_setMuteStatus: async (user_id, mute_status) => {
+        try {
+            const { data, error } = await supabase
+                .from('users')
+                .update({ is_muted: mute_status })
+                .eq('id', user_id)
+                .select();
+
+            if (error) {
+                console.error('Error setting mute status:', error);
+                throw new Error('User not found');
+            }
+
+            const updated_user = data[0];
+            return updated_user;
+        }
+        catch (error) {
+            console.error('Error setting mute status:', error);
             throw error;
         }
     }

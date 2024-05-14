@@ -9,7 +9,8 @@ import {
     selectMyArticles,
     clearMyArticles
 } from '../../slices/articlesSlice';
-import { selectUser } from '../../slices/userSlice';
+import { selectUser, setUserMutedState } from '../../slices/userSlice';
+import userAPI from '../../api/user';
 import { formatToJustDate, formatDate } from '../../utils';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../routes';
@@ -91,10 +92,29 @@ const MyArticles = () => {
         }
     };
 
+    const check_user_muted_state = async () => {
+        const user_data = await userAPI.getUser(user.id);
+        const user_muted_state = user_data.is_muted;
+        console.log("Users muted state: ", user_muted_state)
+        dispatch(setUserMutedState(user_muted_state));
+        return user_muted_state;
+    };
+
+    const checkIfUserCanCreateArticle = async (e) => {
+        e.preventDefault();
+        const user_muted = await check_user_muted_state();
+        if (user_muted) {
+            alert("You are muted and cannot create articles");
+        } else {
+            setShowCreateForm(true);
+        }
+    }
+
+
     return (
         <div className='my-articles-container'>
             <h1>My Articles</h1>
-            <button onClick={() => setShowCreateForm(true)}>+</button>
+            <button onClick={checkIfUserCanCreateArticle}>+</button>
 
             {showCreateForm && (
                 <form onSubmit={handleCreateMyArticle}>

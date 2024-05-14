@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import friendsAPI from '../../../api/friends';
 import chatroomsAPI from '../../../api/chatrooms';
 import { removeFriend } from '../../../slices/friendsSlice';
-import { selectUser } from '../../../slices/userSlice';
+import { selectUser, setUserMutedState } from '../../../slices/userSlice';
+import userAPI from '../../../api/user';
 import { setChatroom } from '../../../slices/chatroomSlice';
 import messagesAPI from '../../../api/messages';
 import { encryptWithReceiversPublicKey, decryptMessageWithSharedKey, decryptWithPrivateKey, encryptMessageWithUsersPassword, decryptMessageWithUsersPassword, validateHmac } from '../chatroom/chatroom_utils';
@@ -18,6 +19,7 @@ const Friend = ({ friendDetails, friendshipId }) => {
   const [friendRole, setFriendRole] = useState(null);
   const dispatch = useDispatch();
   const user_id = useSelector(selectUser).id;
+  const user = useSelector(selectUser);
 
   const getRoleText = (role) => {
     switch (role) {
@@ -248,9 +250,25 @@ const Friend = ({ friendDetails, friendshipId }) => {
     dispatch(setPrivateChatroomLoading(false));
   };
 
+  const checkIfUserCanOpenPrivateChatroom = async () => {
+    const check_user_muted_state = async () => {
+      const user_data = await userAPI.getUser(user.id);
+      const user_muted_state = user_data.is_muted;
+      console.log("Users muted state: ", user_muted_state)
+      dispatch(setUserMutedState(user_muted_state));
+      return user_muted_state;
+    };
+    const muted_state = await check_user_muted_state();
+    //console.log("MUTED STATE IN PRIVATE CHATROOM: ", muted_state)
+    if (muted_state) {
+      alert("You are muted and cannot open a private chatroom");
+    } else {
+      goToChatroom();
+    }
+  }
 
   return (
-    <div className="friends-badge" onClick={goToChatroom}>
+    <div className="friends-badge" onClick={checkIfUserCanOpenPrivateChatroom}>
       {friendDetails ? (
         <div className='friend-container'>
 
