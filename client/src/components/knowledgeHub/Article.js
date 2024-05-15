@@ -75,8 +75,7 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
             console.log("Users muted state: ", user_muted_state)
             dispatch(setUserMutedState(user_muted_state));
         };
-        check_user_muted_state();
-        
+        check_user_muted_state();        
     }, []);
 
 
@@ -262,7 +261,11 @@ const Article = () => { // Article type can be 'mine', 'other', or 'favourite'
                 <div className="article-container">
                     <div className="article-actions">
                         {canEditArticle && (
-                            <button className="edit-btn" onClick={() => setEditArticleMode(true)}>
+                            <button className="edit-btn" onClick={() => {
+                                setEditArticleMode(true);
+                                setNewArticleTitle(article.title);
+                                setNewArticleContent(article.content);
+                            }}>
                             Edit
                             </button>
                         )}

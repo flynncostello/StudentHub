@@ -126,7 +126,7 @@ const MyArticles = () => {
 
             {showCreateForm && (
                 <form className="my-form" onSubmit={handleCreateMyArticle}>
-                    <button className="close-button" onClick={() => setShowCreateForm(false)}>X</button>
+                    <FontAwesomeIcon icon={faTimesCircle} className="close-button-create-new-article" onClick={() => setShowCreateForm(false)} />
                     <input
                         className="form-input-title"
                         type="text"
@@ -151,9 +151,9 @@ const MyArticles = () => {
                     <div className='my-article-container'>
                         <Link className='my-article-link' to={ROUTES.article(article.id, 'mine')}>
                             <li key={article.id}>
-                                <p>{article.title}</p>
-                                <p>{article.author_username} ({getRoleText(article.author_role)})</p>
-                                <p>{article.created_at}</p>                
+                                <p className='article-badge-article-title'>{article.title}</p>
+                                <p className='article-badge-author-role'>{article.author_username} ({getRoleText(article.author_role)})</p>
+                                <p className='article-badge-created-at'>{article.created_at}</p>                
                             </li>
                         </Link>
                         <FontAwesomeIcon icon={faTimesCircle} className="delete-my-article-button" onClick={() => handleDeleteMyArticle(article.id)} />

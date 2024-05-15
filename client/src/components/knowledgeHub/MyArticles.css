@@ -102,8 +102,15 @@
     z-index: 100;
 }
 
-.close-button {
+.close-button-create-new-article {
     align-self: flex-start;
+    color: red;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.close-button-create-new-article:hover {
+    opacity: 0.8;
 }
 
 .form-input-title {
@@ -112,6 +119,7 @@
     width: 80%;
     height: 5%;
     margin: 20px 0 10px 0;
+    border: 1px solid rgb(155, 155, 155);
 }
 
 .form-input-content {
@@ -120,6 +128,7 @@
     width: 80%;
     height: 60%;
     margin: 20px 0;
+    border: 1px solid rgb(155, 155, 155);
 }
 
 .submit-button {
@@ -136,4 +145,15 @@
 
 .submit-button:hover {
     opacity: 0.8;
+}
+
+.article-badge-article-title {
+
+}
+
+.article-badge-author-role,
+.article-badge-created-at {
+    font-size: 13px;
+    margin-top: 18px;
+    color: rgb(32, 32, 32);
 }

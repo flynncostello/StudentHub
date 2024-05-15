@@ -71,8 +71,8 @@ const OtherArticles = () => {
                         <Link className='article-link' to={ROUTES.article(article.id, 'other')}>
                             <li key={article.id}>
                                 <p>{article.title}</p>
-                                <p>{article.author_username} ({getRoleText(article.author_role)})</p>
-                                <p>({article.created_at})</p>                
+                                <p className='article-badge-author-role'>{article.author_username} ({getRoleText(article.author_role)})</p>
+                                <p className='article-badge-created-at'>{article.created_at}</p>                
                             </li>
                         </Link>
                     </div>

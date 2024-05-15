@@ -15,7 +15,10 @@ const NewFriendSearchResults = ({ searchValue }) => {
         const getSearchResults = async () => {
             try {
                 const searchResults = await userAPI.searchUsers(searchValue, user_id, friends);
-                setResults(searchResults);
+                const filteredSearchResults = searchResults.filter(searchResult => 
+                    !friends.some(friend => friend.id === searchResult.id)
+                );
+                setResults(filteredSearchResults);
             } catch (error) {
                 console.error('Error fetching search results:', error);
             }

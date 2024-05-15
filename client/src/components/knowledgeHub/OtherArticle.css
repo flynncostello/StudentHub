@@ -42,3 +42,10 @@
 .all-articles-container .article-link {
     text-decoration: none;
 }
+
+.article-badge-author-role,
+.article-badge-created-at {
+    font-size: 13px;
+    margin-top: 18px;
+    color: rgb(32, 32, 32);
+}
