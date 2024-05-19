@@ -29,8 +29,6 @@ import ROUTES from '../../routes';
 import './Article.css';
 import { formatDate, getRoleText } from '../../utils';
 import HubNavbar from '../hub/HubNavbar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 
 
